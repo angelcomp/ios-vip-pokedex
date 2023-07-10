@@ -8,7 +8,8 @@
 import UIKit
 
 protocol HomeDisplayLogic: AnyObject {
-    func displayScreenValues(viewModel: Home.Model.ViewModel)
+    func displayScreenValues(_ viewModel: Home.Model.PokemonViewModel)
+    func presentScreenError()
 }
 
 final class HomeViewController: UIViewController, HomeDisplayLogic {
@@ -16,7 +17,7 @@ final class HomeViewController: UIViewController, HomeDisplayLogic {
     private lazy var homeTitle: UILabel = {
         let element = UILabel()
         element.font = UIFont(name: FontsEnum.pokemonSolid.rawValue, size: 40)
-        let attributedString = NSMutableAttributedString(string: "Pokedex")
+        let attributedString = NSMutableAttributedString(string: "Pokédex")
         attributedString.addAttribute(NSAttributedString.Key.kern, value: CGFloat(5.0), range: NSRange(location: 0, length: attributedString.length))
         element.attributedText = attributedString
         element.translatesAutoresizingMaskIntoConstraints = false
@@ -30,10 +31,17 @@ final class HomeViewController: UIViewController, HomeDisplayLogic {
         return element
     }()
     
+    private lazy var loading: UIActivityIndicatorView = {
+        let element = UIActivityIndicatorView(style: .large)
+        element.startAnimating()
+        element.translatesAutoresizingMaskIntoConstraints = false
+        return element
+    }()
+    
     private lazy var pokemonsTable: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.itemSize = .init(width: 180, height: 234)
+        layout.itemSize = .init(width: 180, height: 220)
         let element = UICollectionView(frame: .zero, collectionViewLayout: layout)
         element.showsVerticalScrollIndicator = false
         element.backgroundColor = .white
@@ -44,6 +52,18 @@ final class HomeViewController: UIViewController, HomeDisplayLogic {
         element.translatesAutoresizingMaskIntoConstraints = false
         return element
     }()
+    
+    private lazy var errorLabel: UILabel = {
+        let element = UILabel()
+        element.font = UIFont(name: FontsEnum.chalkboard.rawValue, size: 30)
+        let attributedString = NSMutableAttributedString(string: "Something\nwent wrong :/")
+        attributedString.addAttribute(NSAttributedString.Key.kern, value: CGFloat(5.0), range: NSRange(location: 0, length: attributedString.length))
+        element.attributedText = attributedString
+        element.translatesAutoresizingMaskIntoConstraints = false
+        return element
+    }()
+    
+    private var pokemonsList: [Pokemon] = []
     
     // MARK: - Archtecture Objects
     
@@ -91,7 +111,7 @@ final class HomeViewController: UIViewController, HomeDisplayLogic {
     // MARK: - Private Functions
     
     private func loadScreenValues() {
-        interactor?.loadScreenValues()
+        interactor?.loadScreenValues(listAmount: 40)
     }
     
     // MARK: - Layout Functions
@@ -99,13 +119,13 @@ final class HomeViewController: UIViewController, HomeDisplayLogic {
     private func addComponents() {
         view.addSubview(homeTitle)
         view.addSubview(pokeballImage)
-        view.addSubview(pokemonsTable)
+        view.addSubview(loading)
     }
     
     private func addComponentsConstraints() {
         addHomeTitleConstraints()
         addPokeballImageConstraints()
-        addPokemonsTableConstraints()
+        addLoadingConstraints()
     }
     
     private func addHomeTitleConstraints() {
@@ -131,20 +151,51 @@ final class HomeViewController: UIViewController, HomeDisplayLogic {
         ])
     }
     
+    private func addLoadingConstraints() {
+        NSLayoutConstraint.activate([
+            loading.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor),
+            loading.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+        ])
+    }
+    
+    private func addErrorLabelConstraints() {
+        NSLayoutConstraint.activate([
+            errorLabel.topAnchor.constraint(equalTo: homeTitle.bottomAnchor, constant: 8),
+            errorLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            errorLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            errorLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8),
+        ])
+    }
+    
     // MARK: - Display Logic
     
-    func displayScreenValues(viewModel: Home.Model.ViewModel) {
-        //nameTextField.text = viewModel.name
+    func displayScreenValues(_ viewModel: Home.Model.PokemonViewModel) {
+        view.addSubview(pokemonsTable)
+        addPokemonsTableConstraints()
+        
+        DispatchQueue.main.async {
+            self.pokemonsList = viewModel.pokemons
+            self.pokemonsTable.reloadData()
+        }
+        
+        loading.removeFromSuperview()
+        loading.stopAnimating()
+    }
+    
+    func presentScreenError() {
+        pokemonsTable.removeFromSuperview()
+        addErrorLabelConstraints()
     }
 }
 
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        12
+        pokemonsList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PokemonCardViewCell", for: indexPath) as? PokemonCardViewCell else { return UICollectionViewCell() }
+        cell.setup(pokemonsList[indexPath.row])
         return cell
     }
 }
