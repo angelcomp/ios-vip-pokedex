@@ -8,7 +8,7 @@
 import UIKit
 
 protocol HomeBusinessLogic {
-    func loadScreenValues(listAmount: Int)
+    func loadScreenValues(_ offset: Int, _ limit: Int, _ increasingSort: Bool)
 }
 
 protocol HomeDataStore {
@@ -33,25 +33,25 @@ final class HomeInteractor: HomeBusinessLogic, HomeDataStore {
     }
     
     // MARK: - Business Logic
-
     
-    func loadScreenValues(listAmount: Int) {
+    func loadScreenValues(_ offset: Int, _ limit: Int, _ increasingSort: Bool) {
         let group = DispatchGroup()
         var pokemonList: [Pokemon] = []
         
-        for i in 1...listAmount {
-            group.enter()
-            worker.fetchPokemon("\(i)") { response in
-                pokemonList.append(response)
-                group.leave()
-                
-            } fail: { error in
-                self.presenter?.presentScreenError(error)
+        for i in offset - limit + 1...offset {
+            if i <= 1271 {
+                group.enter()
+                worker.fetchPokemon("\(i)") { response in
+                    pokemonList.append(response)
+                    group.leave()
+                } fail: { error in
+                    self.presenter?.presentScreenError(error)
+                }
             }
         }
         
         group.notify(queue: .main) { [weak self] in
-            self?.presenter?.presentScreenValues(pokemonList)
+            self?.presenter?.presentScreenValues(pokemonList, increasingSort)
         }
     }
 }

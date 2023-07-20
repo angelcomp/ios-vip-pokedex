@@ -24,6 +24,17 @@ final class HomeViewController: UIViewController, HomeDisplayLogic {
         return element
     }()
     
+    private lazy var filter: UIImageView = {
+        let image = UIImage(systemName: "slider.horizontal.3")
+        let element = UIImageView(image: image)
+        element.tintColor = .black
+        element.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: #selector(didTapFilter))
+        element.addGestureRecognizer(tap)
+        element.translatesAutoresizingMaskIntoConstraints = false
+        return element
+    }()
+    
     private lazy var pokeballImage: UIImageView = {
         let image = UIImage(named: "pokeball")
         let element = UIImageView(image: image)
@@ -63,7 +74,19 @@ final class HomeViewController: UIViewController, HomeDisplayLogic {
         return element
     }()
     
+    private lazy var pageButtonsBar: HomePageButtonsView = {
+        let element = HomePageButtonsView()
+        element.delegate = self
+        element.firstPokemon = offset - limit + 1
+        element.lastPokemon = offset
+        element.translatesAutoresizingMaskIntoConstraints = false
+        return element
+    }()
+    
     private var pokemonsList: [Pokemon] = []
+    private var limit = 20
+    private var offset = 20
+    private var isIncreasingSort = true
     
     // MARK: - Archtecture Objects
     
@@ -110,21 +133,42 @@ final class HomeViewController: UIViewController, HomeDisplayLogic {
     
     // MARK: - Private Functions
     
-    private func loadScreenValues() {
-        interactor?.loadScreenValues(listAmount: 40)
+    @objc private func didTapFilter() {
+        let vc = FilterModalViewController(sliderValue: limit, isIncreasingSortType: isIncreasingSort)
+        vc.modalPresentationStyle = .popover
+        vc.preferredContentSize = .init(width: 500, height: 300)
+        vc.popoverPresentationController?.sourceView = self.view    // the view of the popover
+        vc.popoverPresentationController?.sourceRect = CGRect(    // the place to display the popover
+            origin: CGPoint(
+                x: filter.frame.maxX,
+                y: filter.frame.maxY
+            ),
+            size: .zero
+        )
+        vc.popoverPresentationController?.delegate = self
+        vc.delegate = self
+        vc.popoverPresentationController?.permittedArrowDirections = .up
+            present(vc, animated: true)
     }
     
     // MARK: - Layout Functions
     
+    private func loadScreenValues() {
+        pageButtonsBar.setPageValues(first: 1, last: 2)
+        interactor?.loadScreenValues(offset, limit, isIncreasingSort)
+    }
+    
     private func addComponents() {
         view.addSubview(homeTitle)
         view.addSubview(pokeballImage)
+        view.addSubview(filter)
         view.addSubview(loading)
     }
     
     private func addComponentsConstraints() {
         addHomeTitleConstraints()
         addPokeballImageConstraints()
+        addFilterConstraints()
         addLoadingConstraints()
     }
     
@@ -142,12 +186,13 @@ final class HomeViewController: UIViewController, HomeDisplayLogic {
         ])
     }
     
-    private func addPokemonsTableConstraints() {
+    private func addFilterConstraints() {
         NSLayoutConstraint.activate([
-            pokemonsTable.topAnchor.constraint(equalTo: homeTitle.bottomAnchor, constant: 8),
-            pokemonsTable.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            pokemonsTable.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
-            pokemonsTable.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8),
+            filter.centerYAnchor.constraint(equalTo: homeTitle.centerYAnchor),
+            filter.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            filter.widthAnchor.constraint(equalToConstant: 30),
+            filter.heightAnchor.constraint(equalToConstant: 30),
+            
         ])
     }
     
@@ -159,6 +204,7 @@ final class HomeViewController: UIViewController, HomeDisplayLogic {
     }
     
     private func addErrorLabelConstraints() {
+        view.addSubview(errorLabel)
         NSLayoutConstraint.activate([
             errorLabel.topAnchor.constraint(equalTo: homeTitle.bottomAnchor, constant: 8),
             errorLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
@@ -167,11 +213,36 @@ final class HomeViewController: UIViewController, HomeDisplayLogic {
         ])
     }
     
+    private func addPokemonsTableConstraints() {
+        NSLayoutConstraint.activate([
+            pokemonsTable.topAnchor.constraint(equalTo: homeTitle.bottomAnchor, constant: 8),
+            pokemonsTable.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            pokemonsTable.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+        ])
+    }
+    
+    private func addPageButtonsBarConstraints() {
+        NSLayoutConstraint.activate([
+            pageButtonsBar.topAnchor.constraint(equalTo: pokemonsTable.bottomAnchor, constant: 8),
+            pageButtonsBar.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            pageButtonsBar.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            pageButtonsBar.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8),
+        ])
+    }
+    
     // MARK: - Display Logic
     
     func displayScreenValues(_ viewModel: Home.Model.PokemonViewModel) {
         view.addSubview(pokemonsTable)
         addPokemonsTableConstraints()
+        
+        view.addSubview(pageButtonsBar)
+        pageButtonsBar.setPageValues(
+            first: offset - limit + 1,
+            last: offset
+        )
+        
+        addPageButtonsBarConstraints()
         
         DispatchQueue.main.async {
             self.pokemonsList = viewModel.pokemons
@@ -186,6 +257,16 @@ final class HomeViewController: UIViewController, HomeDisplayLogic {
         pokemonsTable.removeFromSuperview()
         addErrorLabelConstraints()
     }
+    
+    private func removeTableViewAndPageButtons() {
+        pokemonsTable.setContentOffset(CGPointZero, animated: true)
+        pokemonsTable.removeFromSuperview()
+        pageButtonsBar.removeFromSuperview()
+        
+        view.addSubview(loading)
+        addLoadingConstraints()
+        loading.startAnimating()
+    }
 }
 
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -197,5 +278,34 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PokemonCardViewCell", for: indexPath) as? PokemonCardViewCell else { return UICollectionViewCell() }
         cell.setup(pokemonsList[indexPath.row])
         return cell
+    }
+}
+
+extension HomeViewController: UIPopoverPresentationControllerDelegate, FilterModalViewProtocol {
+    func reloadPokemonsList(amount: Int, increasingSort: Bool) {
+        removeTableViewAndPageButtons()
+        
+        limit = amount
+        offset = amount
+        self.isIncreasingSort = increasingSort
+        self.interactor?.loadScreenValues(offset, limit, isIncreasingSort)
+    }
+    
+    func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
+        return .none
+    }
+}
+
+extension HomeViewController: HomePageButtonsProtocol {
+    func goToPreviousPageButton() {
+        removeTableViewAndPageButtons()
+        offset -= limit
+        interactor?.loadScreenValues(offset, limit, isIncreasingSort)
+    }
+    
+    func goToNextPageButton() {
+        removeTableViewAndPageButtons()
+        offset += limit
+        interactor?.loadScreenValues(offset, limit, isIncreasingSort)
     }
 }

@@ -14,6 +14,7 @@ class PokemonCardViewCell: UICollectionViewCell {
     private lazy var cardId: UILabel = {
         let element = UILabel()
         element.font = UIFont(name: FontsEnum.chalkboard.rawValue, size: 16)
+        element.text = ""
         element.translatesAutoresizingMaskIntoConstraints = false
         return element
     }()
@@ -21,7 +22,6 @@ class PokemonCardViewCell: UICollectionViewCell {
     private lazy var cardFavoriteIcon: UIImageView = {
         let image = UIImage(systemName: "heart.fill")
         let element = UIImageView(image: image)
-        element.alpha = 0.5
         element.tintColor = .red
         element.translatesAutoresizingMaskIntoConstraints = false
         return element
@@ -34,14 +34,10 @@ class PokemonCardViewCell: UICollectionViewCell {
         return element
     }()
     
-    private lazy var cardTypes: UITableView = {
-        let element = UITableView()
-        element.showsVerticalScrollIndicator = false
-        element.backgroundColor = .clear
-        element.separatorColor = .clear
-        element.dataSource = self
-        element.delegate = self
-        element.register(PokemonTypeViewCell.self, forCellReuseIdentifier: "PokemonTypeViewCell")
+    private lazy var cardTypesStack: UIStackView = {
+        let element = UIStackView()
+        element.axis = .vertical
+        element.spacing = 4
         element.translatesAutoresizingMaskIntoConstraints = false
         return element
     }()
@@ -70,29 +66,44 @@ class PokemonCardViewCell: UICollectionViewCell {
     
     // MARK: - UITableViewCell Lifecycle
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        addComponents()
-        addComponentsConstraints()
-        loadScreenValues()
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        pokemon = nil
+        cardTypesStack.safelyRemoveArrangedSubviews()
+        cardPokemonImage.image = nil
+        backgroundColor = .white
+        loading.startAnimating()
     }
     
     // MARK: - public functions
     
     func setup(_ pokemon: Pokemon) {
         self.pokemon = pokemon
+        cardTypesStack.removeFromSuperview()
+        addComponents()
+        addComponentsConstraints()
+        loadScreenValues()
     }
     
     // MARK: - private functions
     
     private func loadScreenValues() {
-        backgroundColor = parsePokemonColor(type: "\(pokemon?.types[0].type.name ?? "")")
+        backgroundColor = UIColor.PokemonColorType.parsePokemonColor(
+            type: "\(pokemon?.types[0].type.name ?? "")"
+        )
+        
         layer.cornerRadius = 8
-        cardId.text = "#00\(pokemon?.id ?? 0)"
+        formatIdString(pokemon?.id ?? 0)
         cardName.text = pokemon?.name.capitalized
         
-        DispatchQueue.global(qos: .default).async {
+        pokemon?.types.forEach({ pokemonType in
+            let typeView = PokemonTypeView(typeName: pokemonType.type.name)
+            cardTypesStack.addArrangedSubview(typeView)
+        })
+        
+        DispatchQueue.global(qos: .default).async { [weak self] in
+            guard let self = self else { return }
+            
             if let url = URL(string: self.pokemon?.sprites.other.officialArtwork.frontDefault ?? ""),
                let data = try? Data(contentsOf: url)
             {
@@ -103,8 +114,21 @@ class PokemonCardViewCell: UICollectionViewCell {
         }
     }
     
+    private func formatIdString(_ id: Int?) {
+        if let id = id {
+            switch id {
+            case 1..<10: cardId.text = "#00\(id)"
+            case 10..<100: cardId.text = "#0\(id)"
+            case 100..<1000: cardId.text = "#\(id)"
+            default:
+                cardId.text = "#\(id)"
+            }
+        }
+    }
+    
     private func updateScreen(_ imageData: Data) {
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
             self.cardPokemonImage.image = UIImage(data: imageData)
             self.loading.removeFromSuperview()
             self.loading.stopAnimating()
@@ -115,35 +139,13 @@ class PokemonCardViewCell: UICollectionViewCell {
         }
     }
     
-    private func parsePokemonColor(type: String) -> UIColor {
-        switch type {
-        case "fighting": return UIColor(named: "fighting")!
-        case "flying": return UIColor(named: "flying")!
-        case "poison": return UIColor(named: "poison")!
-        case "ground": return UIColor(named: "ground")!
-        case "rock": return UIColor(named: "rock")!
-        case "bug": return UIColor(named: "bug")!
-        case "ghost": return UIColor(named: "ghost")!
-        case "steel": return UIColor(named: "steel")!
-        case "fire": return UIColor(named: "fire")!
-        case "water": return UIColor(named: "water")!
-        case "grass": return UIColor(named: "grass")!
-        case "electric": return UIColor(named: "electric")!
-        case "psychic": return UIColor(named: "psychic")!
-        case "ice": return UIColor(named: "ice")!
-        case "dragon": return UIColor(named: "dragon")!
-        case "dark": return UIColor(named: "dark")!
-        case "fairy": return UIColor(named: "fairy")!
-        default:
-            return .lightGray
-        }
-    }
+    // MARK: - Layout Functions
     
     private func addComponents() {
         addSubview(cardId)
         addSubview(cardFavoriteIcon)
         addSubview(cardName)
-        addSubview(cardTypes)
+        addSubview(cardTypesStack)
         addSubview(loading)
     }
     
@@ -151,7 +153,7 @@ class PokemonCardViewCell: UICollectionViewCell {
         addCardIdConstraints()
         addCardFavoriteIconConstraints()
         addCardNameConstraints()
-        addCardTypesConstraints()
+        addCardTypesStackConstraints()
         addLoadingConstraints()
     }
     
@@ -178,12 +180,11 @@ class PokemonCardViewCell: UICollectionViewCell {
         ])
     }
     
-    private func addCardTypesConstraints() {
+    private func addCardTypesStackConstraints() {
         NSLayoutConstraint.activate([
-            cardTypes.topAnchor.constraint(equalTo: cardName.bottomAnchor),
-            cardTypes.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 4),
-            cardTypes.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
-            cardTypes.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+            cardTypesStack.topAnchor.constraint(equalTo: cardName.bottomAnchor, constant: 4),
+            cardTypesStack.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 4),
+            cardTypesStack.widthAnchor.constraint(equalToConstant: 100),
         ])
     }
     
@@ -210,22 +211,5 @@ class PokemonCardViewCell: UICollectionViewCell {
             loading.centerYAnchor.constraint(equalTo: safeAreaLayoutGuide.centerYAnchor, constant: 32),
             loading.centerXAnchor.constraint(equalTo: safeAreaLayoutGuide.centerXAnchor, constant: 32),
         ])
-    }
-}
-
-extension PokemonCardViewCell: UITableViewDataSource, UITableViewDelegate {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        pokemon?.types.count ?? 0
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell  = tableView.dequeueReusableCell(withIdentifier: "PokemonTypeViewCell", for: indexPath) as? PokemonTypeViewCell else { return UITableViewCell() }
-        cell.typeName = pokemon?.types[indexPath.row].type.name ?? ""
-        cell.selectionStyle = .none
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 30
     }
 }

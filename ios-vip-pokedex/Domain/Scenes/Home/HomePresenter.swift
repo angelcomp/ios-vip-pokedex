@@ -8,7 +8,7 @@
 import UIKit
 
 protocol HomePresentationLogic {
-    func presentScreenValues(_ response: [Pokemon])
+    func presentScreenValues(_ response: [Pokemon], _ increasingSort: Bool)
     func presentScreenError(_ error: Error)
 }
 
@@ -20,10 +20,15 @@ final class HomePresenter: HomePresentationLogic {
     
     // MARK: - Presentation Logic
     
-    func presentScreenValues(_ response: [Pokemon]) {
-        let sorted = response.sorted {
+    func presentScreenValues(_ response: [Pokemon], _ increasingSort: Bool) {
+        var sorted = response.sorted {
             $0.id < $1.id
         }
+        
+        if increasingSort == false {
+            sorted = sorted.reversed()
+        }
+        
         let viewModel = Home.Model.PokemonViewModel(pokemons: sorted)
         viewController?.displayScreenValues(viewModel)
     }

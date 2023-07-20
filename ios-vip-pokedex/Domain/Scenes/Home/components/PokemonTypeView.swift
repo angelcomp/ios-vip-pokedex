@@ -7,16 +7,17 @@
 
 import UIKit
 
-class PokemonTypeViewCell: UITableViewCell {
+class PokemonTypeView: UIView {
     
     // MARK: - Properties
     
     var typeName: String = ""
     
     private lazy var typeTitle: UILabel = {
-        let element = UILabel()
+        let element = UILabel(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
         element.font = UIFont(name: FontsEnum.chalkboard.rawValue, size: 12)
         element.textAlignment = .center
+        element.text = ""
         element.translatesAutoresizingMaskIntoConstraints = false
         return element
     }()
@@ -32,23 +33,35 @@ class PokemonTypeViewCell: UITableViewCell {
             frame.size.width = 50
             super.frame = frame
         }
-      
+
     }
     
     // MARK: - UITableViewCell Lifecycle
     
+    init(typeName: String) {
+        self.typeName = typeName
+        super.init(frame: .zero)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         layer.cornerRadius = 4
+        backgroundColor = .white
+        alpha = 0.6
+        
         addComponents()
         addComponentsConstraints()
         loadScreenValues()
     }
     
-    // MARK: - private functions
+    // MARK: - Layout Functions
     
     private func addComponents() {
-        contentView.addSubview(typeTitle)
+        addSubview(typeTitle)
     }
     
     private func addComponentsConstraints() {
@@ -61,8 +74,6 @@ class PokemonTypeViewCell: UITableViewCell {
     }
     
     private func loadScreenValues() {
-        backgroundColor = .white
-        alpha = 0.6
         typeTitle.text = typeName
     }
 }
