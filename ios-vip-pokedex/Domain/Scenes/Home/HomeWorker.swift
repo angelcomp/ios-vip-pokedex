@@ -9,14 +9,12 @@ import UIKit
 
 protocol HomeWorkerLogic {
     var apiManager: ApiManager { get }
-    var baseURL: String { get }
     func fetchPokemon(_ id: String, success: @escaping(Pokemon) -> Void, fail: @escaping(Error) -> Void)
 }
 
 final class HomeWorker: HomeWorkerLogic {
     
     var apiManager: ApiManager = ApiManager()
-    var baseURL = "https://pokeapi.co/api/v2"
     
     func fetchPokemon(_ id: String, success: @escaping(Pokemon) -> Void, fail: @escaping(Error) -> Void) {
         apiManager.getPokemons(endpoint: "/pokemon/\(id)", params: nil) { result in

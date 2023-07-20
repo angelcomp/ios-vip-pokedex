@@ -39,7 +39,7 @@ final class HomeInteractor: HomeBusinessLogic, HomeDataStore {
         var pokemonList: [Pokemon] = []
         
         for i in offset - limit + 1...offset {
-            if i <= 1271 {
+            if i <= 1000 {
                 group.enter()
                 worker.fetchPokemon("\(i)") { response in
                     pokemonList.append(response)

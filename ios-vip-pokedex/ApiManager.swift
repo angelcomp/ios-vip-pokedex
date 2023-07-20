@@ -22,6 +22,7 @@ class ApiManager: ApiManagerProtocol {
             let task = session.dataTask(with: url) { data, response, error in
                 if error != nil {
                     print(error!)
+                    completion(.failure(error!))
                     return
                 }
                 

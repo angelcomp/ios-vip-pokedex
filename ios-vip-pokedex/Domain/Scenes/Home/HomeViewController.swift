@@ -67,9 +67,21 @@ final class HomeViewController: UIViewController, HomeDisplayLogic {
     private lazy var errorLabel: UILabel = {
         let element = UILabel()
         element.font = UIFont(name: FontsEnum.chalkboard.rawValue, size: 30)
-        let attributedString = NSMutableAttributedString(string: "Something\nwent wrong :/")
-        attributedString.addAttribute(NSAttributedString.Key.kern, value: CGFloat(5.0), range: NSRange(location: 0, length: attributedString.length))
-        element.attributedText = attributedString
+        element.text = "Something\nwent wrong :("
+        element.numberOfLines = 0
+        element.textAlignment = .center
+        element.translatesAutoresizingMaskIntoConstraints = false
+        return element
+    }()
+    
+    private lazy var tryAgainButton: UIButton = {
+        let element = UIButton()
+        element.setTitle("Try again", for: .normal)
+        element.backgroundColor = .black
+        element.titleLabel?.textColor = .white
+        element.layer.cornerRadius = 8
+        let tap = UITapGestureRecognizer(target: self, action: #selector(didTapTryAgainButton))
+        element.addGestureRecognizer(tap)
         element.translatesAutoresizingMaskIntoConstraints = false
         return element
     }()
@@ -151,6 +163,11 @@ final class HomeViewController: UIViewController, HomeDisplayLogic {
             present(vc, animated: true)
     }
     
+    @objc private func didTapTryAgainButton() {
+        removeErrorStateView()
+        loadScreenValues()
+    }
+    
     // MARK: - Layout Functions
     
     private func loadScreenValues() {
@@ -203,13 +220,17 @@ final class HomeViewController: UIViewController, HomeDisplayLogic {
         ])
     }
     
-    private func addErrorLabelConstraints() {
+    private func addErrorStateConstraints() {
         view.addSubview(errorLabel)
+        view.addSubview(tryAgainButton)
+        
         NSLayoutConstraint.activate([
-            errorLabel.topAnchor.constraint(equalTo: homeTitle.bottomAnchor, constant: 8),
-            errorLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            errorLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
-            errorLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8),
+            errorLabel.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+            errorLabel.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor),
+            
+            tryAgainButton.topAnchor.constraint(equalTo: errorLabel.bottomAnchor, constant: 32),
+            tryAgainButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 64),
+            tryAgainButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -64),
         ])
     }
     
@@ -254,8 +275,11 @@ final class HomeViewController: UIViewController, HomeDisplayLogic {
     }
     
     func presentScreenError() {
-        pokemonsTable.removeFromSuperview()
-        addErrorLabelConstraints()
+        DispatchQueue.main.async {
+            self.filter.removeFromSuperview()
+            self.loading.stopAnimating()
+            self.addErrorStateConstraints()
+        }
     }
     
     private func removeTableViewAndPageButtons() {
@@ -267,7 +291,18 @@ final class HomeViewController: UIViewController, HomeDisplayLogic {
         addLoadingConstraints()
         loading.startAnimating()
     }
+    
+    private func removeErrorStateView() {
+        errorLabel.removeFromSuperview()
+        tryAgainButton.removeFromSuperview()
+        
+        view.addSubview(loading)
+        addLoadingConstraints()
+        loading.startAnimating()
+    }
 }
+
+// MARK: - HomeViewController extensions
 
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
