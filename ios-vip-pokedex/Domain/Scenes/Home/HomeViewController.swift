@@ -52,11 +52,14 @@ final class HomeViewController: UIViewController, HomeDisplayLogic {
     private lazy var pokemonsTable: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.itemSize = .init(width: 180, height: 220)
+        layout.itemSize = .init(width: 180, height: 210)
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 0)
+        layout.minimumLineSpacing = 12
         let element = UICollectionView(frame: .zero, collectionViewLayout: layout)
         element.showsVerticalScrollIndicator = false
         element.backgroundColor = .white
         element.layer.cornerRadius = 8
+        element.collectionViewLayout = layout
         element.dataSource = self
         element.delegate = self
         element.register(PokemonCardViewCell.self, forCellWithReuseIdentifier: "PokemonCardViewCell")
@@ -176,8 +179,8 @@ final class HomeViewController: UIViewController, HomeDisplayLogic {
     }
     
     private func addComponents() {
-        view.addSubview(homeTitle)
         view.addSubview(pokeballImage)
+        view.addSubview(homeTitle)
         view.addSubview(filter)
         view.addSubview(loading)
     }
@@ -237,7 +240,7 @@ final class HomeViewController: UIViewController, HomeDisplayLogic {
     private func addPokemonsTableConstraints() {
         NSLayoutConstraint.activate([
             pokemonsTable.topAnchor.constraint(equalTo: homeTitle.bottomAnchor, constant: 8),
-            pokemonsTable.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            pokemonsTable.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             pokemonsTable.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
         ])
     }
@@ -313,6 +316,11 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PokemonCardViewCell", for: indexPath) as? PokemonCardViewCell else { return UICollectionViewCell() }
         cell.setup(pokemonsList[indexPath.row])
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        router?.dataStore?.pokemon = pokemonsList[indexPath.row]
+        router?.routeToDetails()
     }
 }
 

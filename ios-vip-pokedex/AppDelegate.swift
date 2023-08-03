@@ -14,8 +14,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow()
         window?.overrideUserInterfaceStyle = .light
-        window?.rootViewController = HomeViewController()
         window?.makeKeyAndVisible()
+        
+        let home = HomeViewController()
+        let navigation = UINavigationController(rootViewController: home)
+        
+        window?.backgroundColor = .systemBackground
+        window?.rootViewController = navigation
     
         return true
     }

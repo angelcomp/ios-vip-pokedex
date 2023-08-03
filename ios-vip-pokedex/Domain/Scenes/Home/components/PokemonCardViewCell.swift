@@ -97,7 +97,7 @@ class PokemonCardViewCell: UICollectionViewCell {
         cardName.text = pokemon?.name.capitalized
         
         pokemon?.types.forEach({ pokemonType in
-            let typeView = PokemonTypeView(typeName: pokemonType.type.name)
+            let typeView = PokemonTypeView(typeName: pokemonType.type.name, fontSize: 12)
             cardTypesStack.addArrangedSubview(typeView)
         })
         

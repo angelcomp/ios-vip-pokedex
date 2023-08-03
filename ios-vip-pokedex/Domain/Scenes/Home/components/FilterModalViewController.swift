@@ -37,7 +37,6 @@ class FilterModalViewController: UIViewController {
     private lazy var valueSlider: UISlider = {
         let element = UISlider()
         element.minimumValue = 10
-        
         element.maximumValue = 100
         element.value = Float(sliderValue)
         element.tintColor = .black

@@ -21,14 +21,32 @@ enum Home {
             let name: String
             let types: [PokemonTypes]
             let sprites: Sprites
+            let abilities: [Abilities]
+            let stats: [Stats]
+            let height: Int
+            let weight: Int
         }
 
         struct PokemonTypes: Decodable {
             let type: Types
+        }
+        
+        struct Stats: Decodable {
+            let baseStat: Int
+            let stat: Types
             
-            struct Types: Decodable {
-                let name: String
+            enum CodingKeys: String, CodingKey {
+                case baseStat = "base_stat"
+                case stat
             }
+        }
+        
+        struct Abilities: Decodable {
+            let ability: Types
+        }
+        
+        struct Types: Decodable {
+            let name: String
         }
 
         struct Sprites: Decodable {
@@ -44,7 +62,7 @@ enum Home {
                 struct OfficialArtwork: Decodable {
                     let frontDefault: String?
                     
-                    enum CodingKeys : String, CodingKey {
+                    enum CodingKeys: String, CodingKey {
                         case frontDefault = "front_default"
                     }
                 }

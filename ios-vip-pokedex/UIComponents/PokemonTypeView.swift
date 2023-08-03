@@ -12,10 +12,11 @@ class PokemonTypeView: UIView {
     // MARK: - Properties
     
     var typeName: String = ""
+    var fontSize: CGFloat
     
     private lazy var typeTitle: UILabel = {
         let element = UILabel(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
-        element.font = UIFont(name: FontsEnum.chalkboard.rawValue, size: 12)
+        element.font = UIFont(name: FontsEnum.chalkboard.rawValue, size: fontSize)
         element.textAlignment = .center
         element.text = ""
         element.translatesAutoresizingMaskIntoConstraints = false
@@ -38,8 +39,9 @@ class PokemonTypeView: UIView {
     
     // MARK: - UITableViewCell Lifecycle
     
-    init(typeName: String) {
+    init(typeName: String, fontSize: Int) {
         self.typeName = typeName
+        self.fontSize = CGFloat(fontSize)
         super.init(frame: .zero)
     }
     

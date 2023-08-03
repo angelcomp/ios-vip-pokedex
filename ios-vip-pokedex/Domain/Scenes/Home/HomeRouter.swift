@@ -8,11 +8,11 @@
 import UIKit
 
 @objc protocol HomeRoutingLogic {
-    func routeToSomewhere()
+    func routeToDetails()
 }
 
 protocol HomeDataPassing {
-    var dataStore: HomeDataStore? { get }
+    var dataStore: HomeDataStore? { get set }
 }
 
 final class HomeRouter: NSObject, HomeRoutingLogic, HomeDataPassing {
@@ -24,16 +24,20 @@ final class HomeRouter: NSObject, HomeRoutingLogic, HomeDataPassing {
     
     // MARK: - Routing Logic
     
-    func routeToSomewhere() {
-        //let nextController = NextViewController()
-        //var destinationDS = nextController.router?.dataStore
-        //passDataToSomewhere(source: dataStore, destination: &destinationDS)
-        //viewController?.navigationController?.pushViewController(nextViewController, animated: true)
+    func routeToDetails() {
+        let vc = PokemonDetailsViewController()
+        let destinationDS = vc.router?.dataStore
+        
+        if let dataStore = dataStore,
+           var destinationDS = destinationDS {
+            passDataToSomewhere(source: dataStore, destination: &destinationDS)
+            viewController?.navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     // MARK: - Passing data
     
-    //func passDataToSomewhere(source: HomeDataStore, destination: inout SomewhereDataStore) {
-        //destination.name = source.name
-    //}
+    func passDataToSomewhere(source: HomeDataStore, destination: inout PokemonDetailsDataStore) {
+        destination.pokemon = source.pokemon
+    }
 }

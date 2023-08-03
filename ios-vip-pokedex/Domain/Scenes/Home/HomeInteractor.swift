@@ -12,7 +12,7 @@ protocol HomeBusinessLogic {
 }
 
 protocol HomeDataStore {
-    // var name: String { get set }
+     var pokemon: Pokemon? { get set }
 }
 
 final class HomeInteractor: HomeBusinessLogic, HomeDataStore {
@@ -24,7 +24,7 @@ final class HomeInteractor: HomeBusinessLogic, HomeDataStore {
     
     // MARK: - DataStore Objects
     
-    // var name: String = ""
+    var pokemon: Pokemon?
     
     // MARK: - Interactor Lifecycle
     
