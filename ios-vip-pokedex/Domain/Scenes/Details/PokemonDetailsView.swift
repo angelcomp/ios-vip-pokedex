@@ -72,7 +72,7 @@ class PokemonDetailsView: UIView {
     // MARK: - private methods
     
     private func loadScreenValues(_ pokemon: PokemonDetails.Model.ViewModel) {
-        pokemonName.attributedText = .formatFont(text: pokemon.name)
+        pokemonName.attributedText = .formatFontSpacing(text: pokemon.name)
         pokemonId.text = String(pokemon.id)
         
         DispatchQueue.global(qos: .default).async { [weak self] in

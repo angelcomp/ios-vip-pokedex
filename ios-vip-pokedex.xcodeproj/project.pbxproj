@@ -23,6 +23,7 @@
 		890BA9F42A4FBB76007E77F1 /* ApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890BA9F32A4FBB76007E77F1 /* ApiManager.swift */; };
 		892348002A7A8C8C002D7183 /* UILayoutPriority+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 892347FF2A7A8C8C002D7183 /* UILayoutPriority+extension.swift */; };
 		892348022A7AA2AA002D7183 /* PokemonAboutCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 892348012A7AA2AA002D7183 /* PokemonAboutCellView.swift */; };
+		892348042A7BD252002D7183 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 892348032A7BD252002D7183 /* HomeView.swift */; };
 		89CD4DC72A5C7488007EE5D5 /* UIColor+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89CD4DC62A5C7488007EE5D5 /* UIColor+extension.swift */; };
 		89CD4DCC2A5C8F43007EE5D5 /* FilterModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89CD4DCB2A5C8F43007EE5D5 /* FilterModalViewController.swift */; };
 		89CD4DCE2A5D94B7007EE5D5 /* HomePageButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89CD4DCD2A5D94B6007EE5D5 /* HomePageButtonsView.swift */; };
@@ -56,6 +57,7 @@
 		890BA9F32A4FBB76007E77F1 /* ApiManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiManager.swift; sourceTree = "<group>"; };
 		892347FF2A7A8C8C002D7183 /* UILayoutPriority+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILayoutPriority+extension.swift"; sourceTree = "<group>"; };
 		892348012A7AA2AA002D7183 /* PokemonAboutCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonAboutCellView.swift; sourceTree = "<group>"; };
+		892348032A7BD252002D7183 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		89CD4DC62A5C7488007EE5D5 /* UIColor+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+extension.swift"; sourceTree = "<group>"; };
 		89CD4DCB2A5C8F43007EE5D5 /* FilterModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterModalViewController.swift; sourceTree = "<group>"; };
 		89CD4DCD2A5D94B6007EE5D5 /* HomePageButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageButtonsView.swift; sourceTree = "<group>"; };
@@ -226,6 +228,7 @@
 				89F9256C2A4C8F5100BA8D42 /* HomeModels.swift */,
 				89F9256D2A4C8F5100BA8D42 /* HomeViewController.swift */,
 				89F9256E2A4C8F5100BA8D42 /* HomeInteractor.swift */,
+				892348032A7BD252002D7183 /* HomeView.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -303,6 +306,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				890BA9EF2A4F2048007E77F1 /* FontsEnum.swift in Sources */,
+				892348042A7BD252002D7183 /* HomeView.swift in Sources */,
 				89CD4DC72A5C7488007EE5D5 /* UIColor+extension.swift in Sources */,
 				890553392A699F3B001D5405 /* PokemonDetailsPresenter.swift in Sources */,
 				890553432A6EB0F0001D5405 /* NSAttributedString+extension.swift in Sources */,
