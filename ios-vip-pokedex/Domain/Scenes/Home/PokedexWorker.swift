@@ -1,5 +1,5 @@
 //
-//  HomeWorker.swift
+//  PokedexWorker.swift
 //  ios-vip-pokedex
 //
 //  Created by Angelica dos Santos on 28/06/23.
@@ -7,12 +7,12 @@
 
 import UIKit
 
-protocol HomeWorkerLogic {
+protocol PokedexWorkerLogic {
     var apiManager: ApiManager { get }
     func fetchPokemon(_ id: String, success: @escaping(Pokemon) -> Void, fail: @escaping(Error) -> Void)
 }
 
-final class HomeWorker: HomeWorkerLogic {
+final class PokedexWorker: PokedexWorkerLogic {
     
     var apiManager: ApiManager = ApiManager()
     

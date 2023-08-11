@@ -1,5 +1,5 @@
 //
-//  HomeView.swift
+//  PokedexView.swift
 //  ios-vip-pokedex
 //
 //  Created by Angelica dos Santos on 03/08/23.
@@ -7,12 +7,12 @@
 
 import UIKit
 
-protocol HomeViewDelegate {
+protocol PokedexViewDelegate {
     func showFilter(_ filter: UIImageView)
     func loadScreenValues()
 }
 
-internal class HomeView: UIView {
+internal class PokedexView: UIView {
     
     // MARK: - Properties
     
@@ -89,15 +89,15 @@ internal class HomeView: UIView {
         return element
     }()
     
-    internal lazy var pageButtonsBar: HomePageButtonsView = {
-        let element = HomePageButtonsView()
+    internal lazy var pageButtonsBar: PokedexPageButtonsView = {
+        let element = PokedexPageButtonsView()
         element.firstPokemon = offset - limit + 1
         element.lastPokemon = offset
         element.translatesAutoresizingMaskIntoConstraints = false
         return element
     }()
     
-    internal var delegate: HomeViewDelegate?
+    internal var delegate: PokedexViewDelegate?
     internal var limit = 20
     internal var offset = 20
     internal var isIncreasingSort = true

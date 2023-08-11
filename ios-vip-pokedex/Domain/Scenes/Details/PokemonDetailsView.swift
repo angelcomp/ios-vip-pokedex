@@ -49,6 +49,7 @@ class PokemonDetailsView: UIView {
     
     private lazy var pokemonImage: UIImageView = {
         let element = UIImageView()
+        element.dropShadow()
         element.backgroundColor = .clear
         element.contentMode = .scaleAspectFit
         element.translatesAutoresizingMaskIntoConstraints = false

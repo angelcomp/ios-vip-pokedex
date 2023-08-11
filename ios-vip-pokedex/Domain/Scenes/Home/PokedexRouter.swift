@@ -1,5 +1,5 @@
 //
-//  HomeRouter.swift
+//  PokedexRouter.swift
 //  ios-vip-pokedex
 //
 //  Created by Angelica dos Santos on 28/06/23.
@@ -7,20 +7,20 @@
 
 import UIKit
 
-@objc protocol HomeRoutingLogic {
+@objc protocol PokedexRoutingLogic {
     func routeToDetails()
 }
 
-protocol HomeDataPassing {
-    var dataStore: HomeDataStore? { get set }
+protocol PokedexDataPassing {
+    var dataStore: PokedexDataStore? { get set }
 }
 
-final class HomeRouter: NSObject, HomeRoutingLogic, HomeDataPassing {
+final class PokedexRouter: NSObject, PokedexRoutingLogic, PokedexDataPassing {
     
     // MARK: - Archtecture Objects
     
-    weak var viewController: HomeViewController?
-    var dataStore: HomeDataStore?
+    weak var viewController: PokedexViewController?
+    var dataStore: PokedexDataStore?
     
     // MARK: - Routing Logic
     
@@ -37,7 +37,7 @@ final class HomeRouter: NSObject, HomeRoutingLogic, HomeDataPassing {
     
     // MARK: - Passing data
     
-    func passDataToSomewhere(source: HomeDataStore, destination: inout PokemonDetailsDataStore) {
+    func passDataToSomewhere(source: PokedexDataStore, destination: inout PokemonDetailsDataStore) {
         destination.pokemon = source.pokemon
     }
 }

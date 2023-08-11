@@ -1,5 +1,5 @@
 //
-//  HomePageButtonsView.swift
+//  PokedexPageButtonsView.swift
 //  ios-vip-pokedex
 //
 //  Created by Angelica dos Santos on 11/07/23.
@@ -7,12 +7,12 @@
 
 import UIKit
 
-protocol HomePageButtonsProtocol {
+protocol PokedexPageButtonsProtocol {
     func goToPreviousPageButton()
     func goToNextPageButton()
 }
 
-class HomePageButtonsView: UIView {
+class PokedexPageButtonsView: UIView {
 
     private lazy var pageNumber: UILabel = {
         let element = UILabel()
@@ -44,7 +44,7 @@ class HomePageButtonsView: UIView {
         return element
     }()
     
-    var delegate: HomePageButtonsProtocol?
+    var delegate: PokedexPageButtonsProtocol?
     
     var firstPokemon: Int?
     var lastPokemon: Int?

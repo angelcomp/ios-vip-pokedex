@@ -1,5 +1,5 @@
 //
-//  HomeModels.swift
+//  PokedexModels.swift
 //  ios-vip-pokedex
 //
 //  Created by Angelica dos Santos on 28/06/23.
@@ -7,9 +7,9 @@
 
 import UIKit
 
-typealias Pokemon = Home.Model.PokemonResponse
+typealias Pokemon = Pokedex.Model.PokemonResponse
 
-enum Home {
+enum Pokedex {
     enum Model {
         struct PokemonRequest {}
         struct PokemonViewModel {

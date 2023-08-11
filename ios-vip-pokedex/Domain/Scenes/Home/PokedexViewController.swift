@@ -1,5 +1,5 @@
 //
-//  HomeViewController.swift
+//  PokedexViewController.swift
 //  ios-vip-pokedex
 //
 //  Created by Angelica dos Santos on 28/06/23.
@@ -7,19 +7,19 @@
 
 import UIKit
 
-protocol HomeDisplayLogic: AnyObject {
-    func displayScreenValues(_ viewModel: Home.Model.PokemonViewModel)
+protocol PokedexDisplayLogic: AnyObject {
+    func displayScreenValues(_ viewModel: Pokedex.Model.PokemonViewModel)
     func presentScreenError()
 }
 
-final class HomeViewController: UIViewController, HomeDisplayLogic {
+final class PokedexViewController: UIViewController, PokedexDisplayLogic {
 
     private var pokemonsList: [Pokemon] = []
     
     // MARK: - Archtecture Objects
     
-    var interactor: HomeBusinessLogic?
-    var router: (NSObjectProtocol & HomeRoutingLogic & HomeDataPassing)?
+    var interactor: PokedexBusinessLogic?
+    var router: (NSObjectProtocol & PokedexRoutingLogic & PokedexDataPassing)?
     
     // MARK: - ViewController Lifecycle
     
@@ -33,15 +33,15 @@ final class HomeViewController: UIViewController, HomeDisplayLogic {
         setup()
     }
     
-    private let homeView = HomeView()
+    private let pokedexView = PokedexView()
     
     // MARK: - Setup
     
     private func setup() {
         let viewController = self
-        let interactor = HomeInteractor()
-        let presenter = HomePresenter()
-        let router = HomeRouter()
+        let interactor = PokedexInteractor()
+        let presenter = PokedexPresenter()
+        let router = PokedexRouter()
         
         viewController.interactor = interactor
         viewController.router = router
@@ -55,61 +55,61 @@ final class HomeViewController: UIViewController, HomeDisplayLogic {
     }
     
     private func setupView() {
-        self.view = homeView
+        self.view = pokedexView
         
-        homeView.addComponents()
-        homeView.addComponentsConstraints()
+        pokedexView.addComponents()
+        pokedexView.addComponentsConstraints()
         
-        homeView.delegate = self
+        pokedexView.delegate = self
         
-        homeView.pokemonsTable.delegate = self
-        homeView.pokemonsTable.dataSource = self
+        pokedexView.pokemonsTable.delegate = self
+        pokedexView.pokemonsTable.dataSource = self
         
-        homeView.pageButtonsBar.delegate = self
+        pokedexView.pageButtonsBar.delegate = self
     }
     
     // MARK: - Display Logic
     
     internal func loadScreenValues() {
-        homeView.pageButtonsBar.setPageValues(first: 1, last: 2)
-        interactor?.loadScreenValues(homeView.offset, homeView.limit, homeView.isIncreasingSort)
+        pokedexView.pageButtonsBar.setPageValues(first: 1, last: 2)
+        interactor?.loadScreenValues(pokedexView.offset, pokedexView.limit, pokedexView.isIncreasingSort)
     }
     
     internal func presentScreenError() {
         DispatchQueue.main.async {
-            self.homeView.filter.removeFromSuperview()
-            self.homeView.loading.stopAnimating()
-            self.homeView.addErrorStateConstraints()
+            self.pokedexView.filter.removeFromSuperview()
+            self.pokedexView.loading.stopAnimating()
+            self.pokedexView.addErrorStateConstraints()
         }
     }
     
-    internal func displayScreenValues(_ viewModel: Home.Model.PokemonViewModel) {
-        homeView.addSubview(homeView.pokemonsTable)
-        homeView.addPokemonsTableConstraints()
+    internal func displayScreenValues(_ viewModel: Pokedex.Model.PokemonViewModel) {
+        pokedexView.addSubview(pokedexView.pokemonsTable)
+        pokedexView.addPokemonsTableConstraints()
         
-        homeView.addSubview(homeView.pageButtonsBar)
-        homeView.pageButtonsBar.setPageValues(
-            first: homeView.offset - homeView.limit + 1,
-            last: homeView.offset
+        pokedexView.addSubview(pokedexView.pageButtonsBar)
+        pokedexView.pageButtonsBar.setPageValues(
+            first: pokedexView.offset - pokedexView.limit + 1,
+            last: pokedexView.offset
         )
         
-        homeView.addPageButtonsBarConstraints()
+        pokedexView.addPageButtonsBarConstraints()
         
         DispatchQueue.main.async {
             self.pokemonsList = viewModel.pokemons
-            self.homeView.pokemonsTable.reloadData()
+            self.pokedexView.pokemonsTable.reloadData()
         }
         
-        homeView.loading.removeFromSuperview()
-        homeView.loading.stopAnimating()
+        pokedexView.loading.removeFromSuperview()
+        pokedexView.loading.stopAnimating()
     }
 }
 
-// MARK: - HomeViewController extensions
+// MARK: - pokedexViewController extensions
 
-extension HomeViewController: HomeViewDelegate {
+extension PokedexViewController: PokedexViewDelegate {
     func showFilter(_ filter: UIImageView) {
-        let vc = FilterModalViewController(sliderValue: homeView.limit, isIncreasingSortType: homeView.isIncreasingSort)
+        let vc = FilterModalViewController(sliderValue: pokedexView.limit, isIncreasingSortType: pokedexView.isIncreasingSort)
         vc.modalPresentationStyle = .popover
         vc.preferredContentSize = .init(width: 500, height: 300)
         vc.popoverPresentationController?.sourceView = self.view    // the view of the popover
@@ -127,7 +127,7 @@ extension HomeViewController: HomeViewDelegate {
     }
 }
 
-extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+extension PokedexViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         pokemonsList.count
     }
@@ -144,14 +144,14 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
 }
 
-extension HomeViewController: UIPopoverPresentationControllerDelegate, FilterModalViewProtocol {
+extension PokedexViewController: UIPopoverPresentationControllerDelegate, FilterModalViewProtocol {
     func reloadPokemonsList(amount: Int, increasingSort: Bool) {
-        homeView.removeTableViewAndPageButtons()
+        pokedexView.removeTableViewAndPageButtons()
         
-        homeView.limit = amount
-        homeView.offset = amount
-        self.homeView.isIncreasingSort = increasingSort
-        self.interactor?.loadScreenValues(homeView.offset, homeView.limit, homeView.isIncreasingSort)
+        pokedexView.limit = amount
+        pokedexView.offset = amount
+        self.pokedexView.isIncreasingSort = increasingSort
+        self.interactor?.loadScreenValues(pokedexView.offset, pokedexView.limit, pokedexView.isIncreasingSort)
     }
     
     func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
@@ -159,16 +159,16 @@ extension HomeViewController: UIPopoverPresentationControllerDelegate, FilterMod
     }
 }
 
-extension HomeViewController: HomePageButtonsProtocol {
+extension PokedexViewController: PokedexPageButtonsProtocol {
     func goToPreviousPageButton() {
-        homeView.removeTableViewAndPageButtons()
-        homeView.offset -= homeView.limit
-        interactor?.loadScreenValues(homeView.offset, homeView.limit, homeView.isIncreasingSort)
+        pokedexView.removeTableViewAndPageButtons()
+        pokedexView.offset -= pokedexView.limit
+        interactor?.loadScreenValues(pokedexView.offset, pokedexView.limit, pokedexView.isIncreasingSort)
     }
     
     func goToNextPageButton() {
-        homeView.removeTableViewAndPageButtons()
-        homeView.offset += homeView.limit
-        interactor?.loadScreenValues(homeView.offset, homeView.limit, homeView.isIncreasingSort)
+        pokedexView.removeTableViewAndPageButtons()
+        pokedexView.offset += pokedexView.limit
+        interactor?.loadScreenValues(pokedexView.offset, pokedexView.limit, pokedexView.isIncreasingSort)
     }
 }

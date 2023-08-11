@@ -1,5 +1,5 @@
 //
-//  HomeInteractor.swift
+//  PokedexInteractor.swift
 //  ios-vip-pokedex
 //
 //  Created by Angelica dos Santos on 28/06/23.
@@ -7,20 +7,20 @@
 
 import UIKit
 
-protocol HomeBusinessLogic {
+protocol PokedexBusinessLogic {
     func loadScreenValues(_ offset: Int, _ limit: Int, _ increasingSort: Bool)
 }
 
-protocol HomeDataStore {
+protocol PokedexDataStore {
      var pokemon: Pokemon? { get set }
 }
 
-final class HomeInteractor: HomeBusinessLogic, HomeDataStore {
+final class PokedexInteractor: PokedexBusinessLogic, PokedexDataStore {
     
     // MARK: - Archtecture Objects
     
-    var presenter: HomePresentationLogic?
-    let worker: HomeWorkerLogic
+    var presenter: PokedexPresentationLogic?
+    let worker: PokedexWorkerLogic
     
     // MARK: - DataStore Objects
     
@@ -28,7 +28,7 @@ final class HomeInteractor: HomeBusinessLogic, HomeDataStore {
     
     // MARK: - Interactor Lifecycle
     
-    init(worker: HomeWorkerLogic = HomeWorker()) {
+    init(worker: PokedexWorkerLogic = PokedexWorker()) {
         self.worker = worker
     }
     

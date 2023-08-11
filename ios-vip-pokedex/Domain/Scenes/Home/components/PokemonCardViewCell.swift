@@ -52,6 +52,7 @@ class PokemonCardViewCell: UICollectionViewCell {
     
     private lazy var cardPokemonImage: UIImageView = {
         let element = UIImageView()
+        element.dropShadow()
         element.backgroundColor = .clear
         element.translatesAutoresizingMaskIntoConstraints = false
         return element

@@ -16,11 +16,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.overrideUserInterfaceStyle = .light
         window?.makeKeyAndVisible()
         
-        let home = HomeViewController()
-        let navigation = UINavigationController(rootViewController: home)
+        let home = PokedexViewController()
+        let homeNavigation = UINavigationController(rootViewController: home)
+        
+        let berries = BerriesViewController()
+        let berriesNavigation = UINavigationController(rootViewController: berries)
+        
+        let tabBar = UITabBarController()
+        tabBar.tabBar.tintColor = .black
+        
+        home.tabBarItem = UITabBarItem(title: "Pokémons", image: UIImage(systemName: "pawprint"), selectedImage: UIImage(named: "pawprint.fill"))
+        berries.tabBarItem = UITabBarItem(title: "Berries", image: UIImage(systemName: "leaf"), selectedImage: UIImage(named: "leaf.fill"))
+        
+        tabBar.viewControllers = [homeNavigation, berriesNavigation]
         
         window?.backgroundColor = .systemBackground
-        window?.rootViewController = navigation
+        window?.rootViewController = tabBar
     
         return true
     }

@@ -1,5 +1,5 @@
 //
-//  HomePresenter.swift
+//  PokedexPresenter.swift
 //  ios-vip-pokedex
 //
 //  Created by Angelica dos Santos on 28/06/23.
@@ -7,16 +7,16 @@
 
 import UIKit
 
-protocol HomePresentationLogic {
+protocol PokedexPresentationLogic {
     func presentScreenValues(_ response: [Pokemon], _ increasingSort: Bool)
     func presentScreenError(_ error: Error)
 }
 
-final class HomePresenter: HomePresentationLogic {
+final class PokedexPresenter: PokedexPresentationLogic {
     
     // MARK: - Archtecture Objects
     
-    weak var viewController: HomeDisplayLogic?
+    weak var viewController: PokedexDisplayLogic?
     
     // MARK: - Presentation Logic
     
@@ -29,7 +29,7 @@ final class HomePresenter: HomePresentationLogic {
             sorted = sorted.reversed()
         }
         
-        let viewModel = Home.Model.PokemonViewModel(pokemons: sorted)
+        let viewModel = Pokedex.Model.PokemonViewModel(pokemons: sorted)
         viewController?.displayScreenValues(viewModel)
     }
     
