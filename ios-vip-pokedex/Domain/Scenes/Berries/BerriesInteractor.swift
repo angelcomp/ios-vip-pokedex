@@ -12,7 +12,7 @@ protocol BerriesBusinessLogic {
 }
 
 protocol BerriesDataStore {
-    // var name: String { get set }
+     var berry: Berry? { get set }
 }
 
 final class BerriesInteractor: BerriesBusinessLogic, BerriesDataStore {
@@ -24,7 +24,7 @@ final class BerriesInteractor: BerriesBusinessLogic, BerriesDataStore {
     
     // MARK: - DataStore Objects
     
-    // var name: String = ""
+     var berry: Berry?
     
     // MARK: - Interactor Lifecycle
     
@@ -35,6 +35,21 @@ final class BerriesInteractor: BerriesBusinessLogic, BerriesDataStore {
     // MARK: - Business Logic
     
     func loadScreenValues() {
-        presenter?.presentScreenValues()
+        let group = DispatchGroup()
+        var berriesList: [Berry] = []
+        
+        for i in 1...64 {
+            group.enter()
+            worker.fetchBerry("\(i)") { response in
+                berriesList.append(response)
+                group.leave()
+            } fail: {
+                self.presenter?.presentScreenError()
+            }
+        }
+        
+        group.notify(queue: .main) { [weak self] in
+            self?.presenter?.presentScreenValues(berriesList)
+        }
     }
 }

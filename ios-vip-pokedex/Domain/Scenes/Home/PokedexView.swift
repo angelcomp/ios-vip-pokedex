@@ -160,7 +160,7 @@ internal class PokedexView: UIView {
     
     internal func addHomeTitleConstraints() {
         NSLayoutConstraint.activate([
-            homeTitle.centerYAnchor.constraint(equalTo: pokeballImage.centerYAnchor, constant: 32),
+            homeTitle.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 32),
             homeTitle.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16),
         ])
     }

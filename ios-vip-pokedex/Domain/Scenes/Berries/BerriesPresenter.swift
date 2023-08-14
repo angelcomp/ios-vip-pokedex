@@ -8,7 +8,8 @@
 import UIKit
 
 protocol BerriesPresentationLogic {
-    func presentScreenValues()
+    func presentScreenValues(_ response: [Berry])
+    func presentScreenError()
 }
 
 final class BerriesPresenter: BerriesPresentationLogic {
@@ -20,7 +21,19 @@ final class BerriesPresenter: BerriesPresentationLogic {
     // MARK: - Presentation Logic
     
     func presentScreenValues() {
-        let viewModel = Berries.Model.ViewModel()
+    }
+    
+    func presentScreenValues(_ response: [Berry]) {
+        
+        let orderedList = response.sorted {
+            $0.id < $1.id
+        }
+        let viewModel = Berries.Model.ViewModel(berries: orderedList)
         viewController?.displayScreenValues(viewModel: viewModel)
+        
+    }
+    
+    func presentScreenError() {
+        viewController?.presentScreenError()
     }
 }

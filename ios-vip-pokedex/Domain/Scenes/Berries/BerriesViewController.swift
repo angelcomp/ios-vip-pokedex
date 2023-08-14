@@ -9,12 +9,12 @@ import UIKit
 
 protocol BerriesDisplayLogic: AnyObject {
     func displayScreenValues(viewModel: Berries.Model.ViewModel)
+    func presentScreenError()
 }
 
-final class BerriesViewController: UIViewController, BerriesDisplayLogic {
+final class BerriesViewController: UIViewController, BerriesDisplayLogic, BerriesViewDelegate {
     
-    // MARK: - Archtecture Objects
-    private let berriesView = BerriesView()
+    private var berries: [Berry] = []
     
     // MARK: - Archtecture Objects
     
@@ -33,6 +33,8 @@ final class BerriesViewController: UIViewController, BerriesDisplayLogic {
         setup()
     }
     
+    private let berriesView = BerriesView()
+    
     // MARK: - Setup
     
     private func setup() {
@@ -48,22 +50,65 @@ final class BerriesViewController: UIViewController, BerriesDisplayLogic {
         router.viewController = viewController
         router.dataStore = interactor
         
+        setupView()
+    }
+    
+    private func setupView() {
+        
         self.view = berriesView
         
         berriesView.addComponents()
         berriesView.addComponentsConstraints()
         loadScreenValues()
+        
+        berriesView.delegate = self
+        
+        berriesView.berriesTable.delegate = self
+        berriesView.berriesTable.dataSource = self
     }
     
     // MARK: - Private Functions
     
-    private func loadScreenValues() {
+    internal func loadScreenValues() {
         interactor?.loadScreenValues()
     }
     
     // MARK: - Display Logic
     
-    func displayScreenValues(viewModel: Berries.Model.ViewModel) {
-        //nameTextField.text = viewModel.name
+    
+    internal func presentScreenError() {
+        DispatchQueue.main.async {
+            self.berriesView.loading.stopAnimating()
+            self.berriesView.addErrorStateConstraints()
+        }
+    }
+    
+    internal func displayScreenValues(viewModel: Berries.Model.ViewModel) {
+        berriesView.addSubview(berriesView.berriesTable)
+        berriesView.addBerriesTableConstraints()
+        
+        DispatchQueue.main.async {
+            self.berries = viewModel.berries
+            self.berriesView.berriesTable.reloadData()
+        }
+        
+        berriesView.loading.removeFromSuperview()
+        berriesView.loading.stopAnimating()
+    }
+}
+
+extension BerriesViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        berries.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView .dequeueReusableCell(withIdentifier: "BerryCardViewCell", for: indexPath) as? BerryCardViewCell else { return UITableViewCell() }
+        cell.setup(berries[indexPath.row])
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        70
     }
 }

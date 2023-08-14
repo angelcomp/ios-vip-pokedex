@@ -32,6 +32,7 @@
 		8953F25F2A8273A300E5799F /* BerriesInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8953F2592A8273A300E5799F /* BerriesInteractor.swift */; };
 		8953F2612A82776300E5799F /* BerriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8953F2602A82776300E5799F /* BerriesView.swift */; };
 		8953F2652A866E1700E5799F /* UIView+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8953F2642A866E1700E5799F /* UIView+extension.swift */; };
+		8953F2682A8A6D1000E5799F /* BerryCardViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8953F2672A8A6D1000E5799F /* BerryCardViewCell.swift */; };
 		89CD4DC72A5C7488007EE5D5 /* UIColor+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89CD4DC62A5C7488007EE5D5 /* UIColor+extension.swift */; };
 		89CD4DCC2A5C8F43007EE5D5 /* FilterModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89CD4DCB2A5C8F43007EE5D5 /* FilterModalViewController.swift */; };
 		89CD4DCE2A5D94B7007EE5D5 /* PokedexPageButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89CD4DCD2A5D94B6007EE5D5 /* PokedexPageButtonsView.swift */; };
@@ -74,6 +75,7 @@
 		8953F2592A8273A300E5799F /* BerriesInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BerriesInteractor.swift; sourceTree = "<group>"; };
 		8953F2602A82776300E5799F /* BerriesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BerriesView.swift; sourceTree = "<group>"; };
 		8953F2642A866E1700E5799F /* UIView+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+extension.swift"; sourceTree = "<group>"; };
+		8953F2672A8A6D1000E5799F /* BerryCardViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BerryCardViewCell.swift; sourceTree = "<group>"; };
 		89CD4DC62A5C7488007EE5D5 /* UIColor+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+extension.swift"; sourceTree = "<group>"; };
 		89CD4DCB2A5C8F43007EE5D5 /* FilterModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterModalViewController.swift; sourceTree = "<group>"; };
 		89CD4DCD2A5D94B6007EE5D5 /* PokedexPageButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokedexPageButtonsView.swift; sourceTree = "<group>"; };
@@ -175,6 +177,7 @@
 		8953F2532A82737100E5799F /* Berries */ = {
 			isa = PBXGroup;
 			children = (
+				8953F2662A8A6CBD00E5799F /* components */,
 				8953F2542A8273A300E5799F /* BerriesPresenter.swift */,
 				8953F2552A8273A300E5799F /* BerriesWorker.swift */,
 				8953F2562A8273A300E5799F /* BerriesRouter.swift */,
@@ -184,6 +187,14 @@
 				8953F2602A82776300E5799F /* BerriesView.swift */,
 			);
 			path = Berries;
+			sourceTree = "<group>";
+		};
+		8953F2662A8A6CBD00E5799F /* components */ = {
+			isa = PBXGroup;
+			children = (
+				8953F2672A8A6D1000E5799F /* BerryCardViewCell.swift */,
+			);
+			path = components;
 			sourceTree = "<group>";
 		};
 		89CD4DC52A5C746D007EE5D5 /* Extensions */ = {
@@ -339,6 +350,7 @@
 			files = (
 				8953F25A2A8273A300E5799F /* BerriesPresenter.swift in Sources */,
 				890BA9EF2A4F2048007E77F1 /* FontsEnum.swift in Sources */,
+				8953F2682A8A6D1000E5799F /* BerryCardViewCell.swift in Sources */,
 				892348042A7BD252002D7183 /* PokedexView.swift in Sources */,
 				8953F25C2A8273A300E5799F /* BerriesRouter.swift in Sources */,
 				89CD4DC72A5C7488007EE5D5 /* UIColor+extension.swift in Sources */,

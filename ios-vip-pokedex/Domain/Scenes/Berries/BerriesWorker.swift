@@ -8,9 +8,26 @@
 import UIKit
 
 protocol BerriesWorkerLogic {
-    func fetchData()
+    func fetchBerry(_ id: String, success: @escaping(Berry) -> Void, fail: @escaping() -> Void)
 }
 
 final class BerriesWorker: BerriesWorkerLogic {
-    func fetchData() {}
+    
+    var apiManager: ApiManager = ApiManager()
+    
+    func fetchBerry(_ id: String, success: @escaping (Berry) -> Void, fail: @escaping () -> Void) {
+        apiManager.getBerry(endpoint: "/berry/\(id)", params: nil) { result in
+            switch result {
+            case .success(let data):
+                success(data)
+                break
+            case .some:
+                fail()
+                break
+            case .none:
+                fail()
+                break
+            }
+        }
+    }
 }
