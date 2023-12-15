@@ -33,6 +33,13 @@
 		8953F2612A82776300E5799F /* BerriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8953F2602A82776300E5799F /* BerriesView.swift */; };
 		8953F2652A866E1700E5799F /* UIView+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8953F2642A866E1700E5799F /* UIView+extension.swift */; };
 		8953F2682A8A6D1000E5799F /* BerryCardViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8953F2672A8A6D1000E5799F /* BerryCardViewCell.swift */; };
+		8953F2702A8A958F00E5799F /* BerryDetailsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8953F26A2A8A958F00E5799F /* BerryDetailsPresenter.swift */; };
+		8953F2712A8A958F00E5799F /* BerryDetailsWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8953F26B2A8A958F00E5799F /* BerryDetailsWorker.swift */; };
+		8953F2722A8A958F00E5799F /* BerryDetailsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8953F26C2A8A958F00E5799F /* BerryDetailsRouter.swift */; };
+		8953F2732A8A958F00E5799F /* BerryDetailsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8953F26D2A8A958F00E5799F /* BerryDetailsModels.swift */; };
+		8953F2742A8A958F00E5799F /* BerryDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8953F26E2A8A958F00E5799F /* BerryDetailsViewController.swift */; };
+		8953F2752A8A958F00E5799F /* BerryDetailsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8953F26F2A8A958F00E5799F /* BerryDetailsInteractor.swift */; };
+		8953F2772A8A95D600E5799F /* BerryDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8953F2762A8A95D600E5799F /* BerryDetailsView.swift */; };
 		89CD4DC72A5C7488007EE5D5 /* UIColor+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89CD4DC62A5C7488007EE5D5 /* UIColor+extension.swift */; };
 		89CD4DCC2A5C8F43007EE5D5 /* FilterModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89CD4DCB2A5C8F43007EE5D5 /* FilterModalViewController.swift */; };
 		89CD4DCE2A5D94B7007EE5D5 /* PokedexPageButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89CD4DCD2A5D94B6007EE5D5 /* PokedexPageButtonsView.swift */; };
@@ -76,6 +83,13 @@
 		8953F2602A82776300E5799F /* BerriesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BerriesView.swift; sourceTree = "<group>"; };
 		8953F2642A866E1700E5799F /* UIView+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+extension.swift"; sourceTree = "<group>"; };
 		8953F2672A8A6D1000E5799F /* BerryCardViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BerryCardViewCell.swift; sourceTree = "<group>"; };
+		8953F26A2A8A958F00E5799F /* BerryDetailsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BerryDetailsPresenter.swift; sourceTree = "<group>"; };
+		8953F26B2A8A958F00E5799F /* BerryDetailsWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BerryDetailsWorker.swift; sourceTree = "<group>"; };
+		8953F26C2A8A958F00E5799F /* BerryDetailsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BerryDetailsRouter.swift; sourceTree = "<group>"; };
+		8953F26D2A8A958F00E5799F /* BerryDetailsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BerryDetailsModels.swift; sourceTree = "<group>"; };
+		8953F26E2A8A958F00E5799F /* BerryDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BerryDetailsViewController.swift; sourceTree = "<group>"; };
+		8953F26F2A8A958F00E5799F /* BerryDetailsInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BerryDetailsInteractor.swift; sourceTree = "<group>"; };
+		8953F2762A8A95D600E5799F /* BerryDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BerryDetailsView.swift; sourceTree = "<group>"; };
 		89CD4DC62A5C7488007EE5D5 /* UIColor+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+extension.swift"; sourceTree = "<group>"; };
 		89CD4DCB2A5C8F43007EE5D5 /* FilterModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterModalViewController.swift; sourceTree = "<group>"; };
 		89CD4DCD2A5D94B6007EE5D5 /* PokedexPageButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokedexPageButtonsView.swift; sourceTree = "<group>"; };
@@ -107,7 +121,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		890553322A699F10001D5405 /* Details */ = {
+		890553322A699F10001D5405 /* PokemonDetails */ = {
 			isa = PBXGroup;
 			children = (
 				890553442A6ED920001D5405 /* components */,
@@ -119,7 +133,7 @@
 				890553382A699F3B001D5405 /* PokemonDetailsInteractor.swift */,
 				890553402A6EAF4A001D5405 /* PokemonDetailsView.swift */,
 			);
-			path = Details;
+			path = PokemonDetails;
 			sourceTree = "<group>";
 		};
 		8905533F2A6EAD43001D5405 /* UIComponents */ = {
@@ -160,8 +174,9 @@
 			isa = PBXGroup;
 			children = (
 				89F925682A4C8F2E00BA8D42 /* Home */,
+				890553322A699F10001D5405 /* PokemonDetails */,
 				8953F2532A82737100E5799F /* Berries */,
-				890553322A699F10001D5405 /* Details */,
+				8953F2692A8A954A00E5799F /* BerryDetails */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -195,6 +210,20 @@
 				8953F2672A8A6D1000E5799F /* BerryCardViewCell.swift */,
 			);
 			path = components;
+			sourceTree = "<group>";
+		};
+		8953F2692A8A954A00E5799F /* BerryDetails */ = {
+			isa = PBXGroup;
+			children = (
+				8953F26A2A8A958F00E5799F /* BerryDetailsPresenter.swift */,
+				8953F26B2A8A958F00E5799F /* BerryDetailsWorker.swift */,
+				8953F26C2A8A958F00E5799F /* BerryDetailsRouter.swift */,
+				8953F26D2A8A958F00E5799F /* BerryDetailsModels.swift */,
+				8953F26E2A8A958F00E5799F /* BerryDetailsViewController.swift */,
+				8953F26F2A8A958F00E5799F /* BerryDetailsInteractor.swift */,
+				8953F2762A8A95D600E5799F /* BerryDetailsView.swift */,
+			);
+			path = BerryDetails;
 			sourceTree = "<group>";
 		};
 		89CD4DC52A5C746D007EE5D5 /* Extensions */ = {
@@ -357,11 +386,16 @@
 				890553392A699F3B001D5405 /* PokemonDetailsPresenter.swift in Sources */,
 				890553432A6EB0F0001D5405 /* NSAttributedString+extension.swift in Sources */,
 				8953F25E2A8273A300E5799F /* BerriesViewController.swift in Sources */,
+				8953F2732A8A958F00E5799F /* BerryDetailsModels.swift in Sources */,
 				890553412A6EAF4A001D5405 /* PokemonDetailsView.swift in Sources */,
 				89F925712A4C8F5100BA8D42 /* PokedexRouter.swift in Sources */,
 				8905533A2A699F3B001D5405 /* PokemonDetailsWorker.swift in Sources */,
 				8905533E2A699F3B001D5405 /* PokemonDetailsInteractor.swift in Sources */,
+				8953F2772A8A95D600E5799F /* BerryDetailsView.swift in Sources */,
 				892348022A7AA2AA002D7183 /* PokemonAboutCellView.swift in Sources */,
+				8953F2752A8A958F00E5799F /* BerryDetailsInteractor.swift in Sources */,
+				8953F2722A8A958F00E5799F /* BerryDetailsRouter.swift in Sources */,
+				8953F2702A8A958F00E5799F /* BerryDetailsPresenter.swift in Sources */,
 				89F9254B2A4C75CA00BA8D42 /* AppDelegate.swift in Sources */,
 				892348002A7A8C8C002D7183 /* UILayoutPriority+extension.swift in Sources */,
 				89CD4DCC2A5C8F43007EE5D5 /* FilterModalViewController.swift in Sources */,
@@ -374,8 +408,10 @@
 				8905533D2A699F3B001D5405 /* PokemonDetailsViewController.swift in Sources */,
 				89F925782A4F19F300BA8D42 /* PokemonTypeView.swift in Sources */,
 				89F925762A4F176100BA8D42 /* PokemonCardViewCell.swift in Sources */,
+				8953F2712A8A958F00E5799F /* BerryDetailsWorker.swift in Sources */,
 				8905533B2A699F3B001D5405 /* PokemonDetailsRouter.swift in Sources */,
 				89F925742A4C8F5100BA8D42 /* PokedexInteractor.swift in Sources */,
+				8953F2742A8A958F00E5799F /* BerryDetailsViewController.swift in Sources */,
 				89F9256F2A4C8F5100BA8D42 /* PokedexPresenter.swift in Sources */,
 				8905533C2A699F3B001D5405 /* PokemonDetailsModels.swift in Sources */,
 				8953F25F2A8273A300E5799F /* BerriesInteractor.swift in Sources */,
