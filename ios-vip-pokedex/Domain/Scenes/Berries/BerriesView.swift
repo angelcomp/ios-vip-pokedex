@@ -165,8 +165,8 @@ class BerriesView: UIView {
     internal func addBerriesTableConstraints() {
         NSLayoutConstraint.activate([
             berriesTable.topAnchor.constraint(equalTo: viewTitle.bottomAnchor, constant: 16),
-            berriesTable.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            berriesTable.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            berriesTable.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 8),
+            berriesTable.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -8),
             berriesTable.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -16)
         ])
     }

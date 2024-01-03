@@ -75,7 +75,6 @@ final class BerriesViewController: UIViewController, BerriesDisplayLogic, Berrie
     
     // MARK: - Display Logic
     
-    
     internal func presentScreenError() {
         DispatchQueue.main.async {
             self.berriesView.loading.stopAnimating()
@@ -109,6 +108,10 @@ extension BerriesViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        70
+        100
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        router?.routeToDetails()
     }
 }

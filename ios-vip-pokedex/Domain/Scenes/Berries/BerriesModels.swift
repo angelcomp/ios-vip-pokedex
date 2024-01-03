@@ -15,7 +15,7 @@ enum Berries {
         struct Response: Decodable {
             let id: Int
             let name: String
-            var firmness: Name
+            let firmness: Name
             let flavors: [Flavor]
             let size, smoothness, soilDryness: Int
 

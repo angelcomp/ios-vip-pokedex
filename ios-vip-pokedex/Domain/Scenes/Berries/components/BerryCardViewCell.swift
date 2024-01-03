@@ -41,12 +41,28 @@ class BerryCardViewCell: UITableViewCell {
         return element
     }()
     
+    private lazy var cardBerryImage: UIImageView = {
+        let element = UIImageView()
+        element.backgroundColor = .clear
+        element.translatesAutoresizingMaskIntoConstraints = false
+        return element
+    }()
+    
+    private lazy var loading: UIActivityIndicatorView = {
+        let element = UIActivityIndicatorView(style: .medium)
+        element.startAnimating()
+        element.translatesAutoresizingMaskIntoConstraints = false
+        return element
+    }()
+    
     // MARK: - ViewCell Lifecycle
     
     override func prepareForReuse() {
         super.prepareForReuse()
         berry = nil
+        cardBerryImage.image = nil
         backgroundColor = .white
+        loading.startAnimating()
     }
     
     // MARK: - public functions
@@ -66,6 +82,33 @@ class BerryCardViewCell: UITableViewCell {
         formatIdString(berry?.id ?? 0)
         cardName.text = berry?.name.capitalized
         cardDescription.text = berry?.firmness.name.replacingOccurrences(of: "-", with: " ").capitalized
+        downloadImage()
+    }
+    
+    private func downloadImage() {
+        let url = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/\(berry?.name ?? "")-berry.png"
+        DispatchQueue.global(qos: .default).async { [weak self] in
+            guard let self = self else { return }
+            
+            if let url = URL(string: url),
+               let data = try? Data(contentsOf: url)
+            {
+                self.updateScreen(data)
+            } else {
+                self.cardBerryImage.image = UIImage(systemName: "wifi.slash")
+            }
+        }
+    }
+    
+    private func updateScreen(_ imageData: Data) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.cardBerryImage.image = UIImage(data: imageData)
+            self.loading.removeFromSuperview()
+            self.loading.stopAnimating()
+            self.addSubview(self.cardBerryImage)
+            self.addCardBerryImageConstraints()
+        }
     }
     
     private func formatIdString(_ id: Int?) {
@@ -86,6 +129,7 @@ class BerryCardViewCell: UITableViewCell {
         addSubview(cardFavoriteIcon)
         addSubview(cardName)
         addSubview(cardDescription)
+        addSubview(loading)
     }
     
     private func addComponentsConstraints() {
@@ -93,6 +137,7 @@ class BerryCardViewCell: UITableViewCell {
         addCardFavoriteIconConstraints()
         addCardNameConstraints()
         addCardDescriptionConstraints()
+        addLoadingConstraints()
     }
     
     private func addCardIdConstraints() {
@@ -100,7 +145,6 @@ class BerryCardViewCell: UITableViewCell {
             cardId.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 8),
             cardId.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -8),
             cardId.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 8),
-            cardId.trailingAnchor.constraint(equalTo: cardName.leadingAnchor, constant: -16),
         ])
         cardId.setContentHuggingPriority(.almostRequired, for: .horizontal)
     }
@@ -116,7 +160,6 @@ class BerryCardViewCell: UITableViewCell {
     
     private func addCardDescriptionConstraints() {
         NSLayoutConstraint.activate([
-            cardDescription.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -8),
             cardDescription.leadingAnchor.constraint(equalTo: cardName.leadingAnchor),
         ])
     }
@@ -125,6 +168,28 @@ class BerryCardViewCell: UITableViewCell {
         NSLayoutConstraint.activate([
             cardFavoriteIcon.centerYAnchor.constraint(equalTo: safeAreaLayoutGuide.centerYAnchor),
             cardFavoriteIcon.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -8),
+        ])
+    }
+    
+    private func addCardBerryImageConstraints() {
+        NSLayoutConstraint.activate([
+            cardBerryImage.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 8),
+            cardBerryImage.trailingAnchor.constraint(equalTo: cardName.leadingAnchor, constant: -8),
+            cardBerryImage.leadingAnchor.constraint(equalTo: cardId.trailingAnchor, constant: 8),
+            cardBerryImage.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -8),
+            cardBerryImage.heightAnchor.constraint(equalToConstant: 85),
+            cardBerryImage.widthAnchor.constraint(equalToConstant: 85)
+        ])
+    }
+    
+    private func addLoadingConstraints() {
+        NSLayoutConstraint.activate([
+            loading.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 8),
+            loading.trailingAnchor.constraint(equalTo: cardName.leadingAnchor, constant: -8),
+            loading.leadingAnchor.constraint(equalTo: cardId.trailingAnchor, constant: 16),
+            loading.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -8),
+            loading.heightAnchor.constraint(equalToConstant: 85),
+            loading.widthAnchor.constraint(equalToConstant: 85)
         ])
     }
 }

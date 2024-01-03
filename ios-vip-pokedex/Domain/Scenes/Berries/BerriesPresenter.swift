@@ -20,14 +20,12 @@ final class BerriesPresenter: BerriesPresentationLogic {
     
     // MARK: - Presentation Logic
     
-    func presentScreenValues() {
-    }
-    
     func presentScreenValues(_ response: [Berry]) {
         
         let orderedList = response.sorted {
             $0.id < $1.id
         }
+        
         let viewModel = Berries.Model.ViewModel(berries: orderedList)
         viewController?.displayScreenValues(viewModel: viewModel)
         
