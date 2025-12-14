@@ -20,25 +20,10 @@ final class PokemonDetailsPresenter: PokemonDetailsPresentationLogic {
     // MARK: - Presentation Logic
     
     func presentScreenValues(_ pokemon: Pokemon) {
-        let id = String(pokemon.id)
-        let name = pokemon.name.capitalized
-        let height = pokemon.height
-        let weight = pokemon.weight
-        let sprite = pokemon.sprites.other.officialArtwork.frontDefault ?? ""
+        let types = pokemon.types.components(separatedBy: ",")
+        let stats = pokemon.stats.components(separatedBy: ",")
         
-        var stats = pokemon.stats.reduce(into: [String: Int]()) {
-            $0[$1.stat.name.capitalized] = $1.baseStat
-        }
-        
-        let abilities = pokemon.abilities.map { item in
-            item.ability.name
-        }
-        
-        let types = pokemon.types.map { item in
-            item.type.name
-        }
-        
-        let viewModel = PokemonDetails.Model.ViewModel(id: id, name: name, types: types, sprite: sprite, abilities: abilities, height: height, weight: weight, stats: stats)
+        let viewModel = PokemonDetails.Model.ViewModel(id: pokemon.id, name: pokemon.name, types: types, sprite: pokemon.sprite, abilities: pokemon.abilities, height: pokemon.height, weight: pokemon.weight, stats: stats)
         viewController?.displayScreenValues(viewModel: viewModel)
     }
 }

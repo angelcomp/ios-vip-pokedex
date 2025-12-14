@@ -12,14 +12,14 @@ enum PokemonDetails {
         struct Request {}
         struct Response {}
         struct ViewModel {
-            var id: String
+            var id: Int
             var name: String
             var types: [String]
             var sprite: String
-            var abilities: [String]
+            var abilities: String
             let height: Int
             let weight: Int
-            var stats: [String: Int]
+            var stats: [String]
         }
     }
 }

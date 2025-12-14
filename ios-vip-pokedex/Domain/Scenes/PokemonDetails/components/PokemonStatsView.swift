@@ -62,9 +62,12 @@ class PokemonStatsView: UIView {
         
         var total = 0
         pokemon.stats.forEach { item in
-            let element = PokemonBaseStatsCellView(name: item.key, value: item.value, color: color)
+            let stat = item.components(separatedBy: ": ")
+            let name = stat[0]
+            let value = Int(stat[1]) ?? 0
+            let element = PokemonBaseStatsCellView(name: name, value: value, color: color)
             detailedStatsStack.addArrangedSubview(element)
-            total += item.value
+            total += value
         }
         total = total / pokemon.stats.count
         let element = PokemonBaseStatsCellView(name: "Average", value: total, color: color)
@@ -73,15 +76,10 @@ class PokemonStatsView: UIView {
     }
     
     private func setupAboutStack(_ pokemon: PokemonDetails.Model.ViewModel) {
-        var abilitiesString = ""
-        
-        pokemon.abilities.forEach { ability in
-            abilitiesString += ability.capitalized + ", "
-        }
-        
+               
         let height = PokemonAboutCellView(name: "Height", value: String(pokemon.height))
         let weight = PokemonAboutCellView(name: "Weight", value: String(pokemon.weight))
-        let abilities = PokemonAboutCellView(name: "Abilities", value: abilitiesString)
+        let abilities = PokemonAboutCellView(name: "Abilities", value: pokemon.abilities)
         
         detailedAboutStack.addArrangedSubview(height)
         detailedAboutStack.addArrangedSubview(weight)

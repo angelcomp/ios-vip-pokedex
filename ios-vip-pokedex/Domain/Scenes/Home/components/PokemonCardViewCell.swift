@@ -89,23 +89,25 @@ class PokemonCardViewCell: UICollectionViewCell {
     // MARK: - private functions
     
     private func loadScreenValues() {
+        let allTypes = pokemon!.types.split(separator: ",")
+        
         backgroundColor = UIColor.PokemonColorType.parsePokemonColor(
-            type: "\(pokemon?.types[0].type.name ?? "")"
+            type: "\(allTypes[0])"
         )
         
         layer.cornerRadius = 8
         formatIdString(pokemon?.id ?? 0)
         cardName.text = pokemon?.name.capitalized
         
-        pokemon?.types.forEach({ pokemonType in
-            let typeView = PokemonTypeView(typeName: pokemonType.type.name, fontSize: 12)
+        allTypes.forEach({ pokemonType in
+            let typeView = PokemonTypeView(typeName: String(pokemonType), fontSize: 12)
             cardTypesStack.addArrangedSubview(typeView)
         })
         
         DispatchQueue.global(qos: .default).async { [weak self] in
             guard let self = self else { return }
             
-            if let url = URL(string: self.pokemon?.sprites.other.officialArtwork.frontDefault ?? ""),
+            if let url = URL(string: self.pokemon?.sprite ?? ""),
                let data = try? Data(contentsOf: url)
             {
                 self.updateScreen(data)
