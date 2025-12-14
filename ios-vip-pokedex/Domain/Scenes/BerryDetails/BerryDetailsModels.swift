@@ -13,7 +13,7 @@ enum BerryDetails {
             var id: Int
             var name: String
             var firmness: String
-            var flavors: [Flavor]
+            var flavors: String
             var size, smoothness, soilDryness: Int
             var imageData: Data?
         }

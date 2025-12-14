@@ -81,7 +81,7 @@ class BerryCardViewCell: UITableViewCell {
         layer.cornerRadius = 8
         formatIdString(berry?.id ?? 0)
         cardName.text = berry?.name.capitalized
-        cardDescription.text = berry?.firmness.name.replacingOccurrences(of: "-", with: " ").capitalized
+        cardDescription.text = berry?.firmness.replacingOccurrences(of: "-", with: " ").capitalized
         downloadImage()
     }
     

@@ -22,7 +22,7 @@ final class BerryDetailsPresenter: BerryDetailsPresentationLogic {
     func presentScreenValues(_ berry: Berry?, _ imageData: Data?) {
         if let id = berry?.id,
            let name = berry?.name.capitalized,
-            let firmness = berry?.firmness.name,
+            let firmness = berry?.firmness,
             let flavors = berry?.flavors,
             let size = berry?.size,
             let smoothness = berry?.smoothness,
