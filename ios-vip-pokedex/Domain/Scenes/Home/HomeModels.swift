@@ -25,6 +25,7 @@ enum Pokedex {
             let stats: [Stats]
             let height: Int
             let weight: Int
+//            let items: Stats
         }
 
         struct PokemonTypes: Decodable {
@@ -47,6 +48,7 @@ enum Pokedex {
         
         struct Types: Decodable {
             let name: String
+            let url: String
         }
 
         struct Sprites: Decodable {

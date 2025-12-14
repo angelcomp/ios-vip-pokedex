@@ -8,7 +8,7 @@
 import UIKit
 
 protocol BerryDetailsPresentationLogic {
-    func presentScreenValues()
+    func presentScreenValues(_ berry: Berry?, _ imageData: Data?)
 }
 
 final class BerryDetailsPresenter: BerryDetailsPresentationLogic {
@@ -19,8 +19,26 @@ final class BerryDetailsPresenter: BerryDetailsPresentationLogic {
     
     // MARK: - Presentation Logic
     
-    func presentScreenValues() {
-        let viewModel = BerryDetails.Model.ViewModel()
-        viewController?.displayScreenValues(viewModel: viewModel)
+    func presentScreenValues(_ berry: Berry?, _ imageData: Data?) {
+        if let id = berry?.id,
+           let name = berry?.name.capitalized,
+            let firmness = berry?.firmness.name,
+            let flavors = berry?.flavors,
+            let size = berry?.size,
+            let smoothness = berry?.smoothness,
+           let soilDryness = berry?.soilDryness {
+            
+            let viewModel = BerryDetails.Model.ViewModel(id: id, name: name, firmness: firmness, flavors: flavors, size: size, smoothness: smoothness, soilDryness: soilDryness, imageData: imageData)
+            
+            viewController?.displayScreenValues(viewModel: viewModel)
+        }
+        
+        
+        
+        func printNum() {
+//            let al = Alpha()
+//            
+//            al.teste(.um)
+        }
     }
 }

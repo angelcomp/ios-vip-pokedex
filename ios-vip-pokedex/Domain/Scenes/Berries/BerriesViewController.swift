@@ -112,6 +112,9 @@ extension BerriesViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        router?.dataStore?.berry = berries[indexPath.row]
         router?.routeToDetails()
+        
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }

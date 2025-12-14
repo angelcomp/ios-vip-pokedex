@@ -9,8 +9,13 @@ import UIKit
 
 enum BerryDetails {
     enum Model {
-        struct Request {}
-        struct Response {}
-        struct ViewModel {}
+        struct ViewModel {
+            var id: Int
+            var name: String
+            var firmness: String
+            var flavors: [Flavor]
+            var size, smoothness, soilDryness: Int
+            var imageData: Data?
+        }
     }
 }

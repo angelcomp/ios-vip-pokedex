@@ -34,6 +34,12 @@ class BerryDetailsView: UIView {
         return element
     }()
     
+    private lazy var BerryStatsCard: BerryStatsView = {
+        let element = BerryStatsView()
+        element.translatesAutoresizingMaskIntoConstraints = false
+        return element
+    }()
+    
     // MARK: - public methods
     
     func setup(berry: BerryDetails.Model.ViewModel) {
@@ -45,27 +51,20 @@ class BerryDetailsView: UIView {
     // MARK: - private methods
     
     private func loadScreenValues(_ berry: BerryDetails.Model.ViewModel) {
-//        berryName.attributedText = .formatFontSpacing(text: berry.name)
-//        berryId.text = String(berry.id)
+        berryName.attributedText = .formatFontSpacing(text: berry.name)
+        berryId.text = String(berry.id)
         
-//        DispatchQueue.global(qos: .default).async { [weak self] in
-//            guard let self = self else { return }
-//
-//            if let url = URL(string: pokemon.sprite),
-//               let data = try? Data(contentsOf: url)
-//            {
-//                DispatchQueue.main.async {
-//                    self.pokemonImage.image = UIImage(data: data)
-//                }
-//            }
-//        }
-//
-//        pokemon.types.forEach({ type in
-//            let typeView = PokemonTypeView(typeName: type.capitalized, fontSize: 20)
-//            pokemonTypesStack.addArrangedSubview(typeView)
-//        })
-//
-//        pokemonStatsCard.setup(pokemon)
+        DispatchQueue.main.async {
+            
+            if let imageData = berry.imageData {
+                self.berryImage.image = UIImage(data: imageData)
+            } else {
+                self.berryImage.image = UIImage(systemName: "wifi-slash")
+            }
+            
+        }
+        
+        BerryStatsCard.setup(berry)
     }
     
     // MARK: - Layout methods
@@ -74,39 +73,52 @@ class BerryDetailsView: UIView {
         addSubview(berryName)
         addSubview(berryId)
         addSubview(berryImage)
+        addSubview(BerryStatsCard)
     }
     
     private func addComponentsConstraints() {
-        addPokemonNameConstraints()
-        addPokemonIdConstraints()
-        addPokemonImageConstraints()
+        addBerryNameConstraints()
+        addBerryIdConstraints()
+        addBerryImageConstraints()
+        addBerryStatsCardConstraints()
     }
     
-    private func addPokemonNameConstraints() {
+    private func addBerryNameConstraints() {
         NSLayoutConstraint.activate([
             berryName.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 16),
             berryName.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            berryName.trailingAnchor.constraint(equalTo: berryId.trailingAnchor, constant: -16),
         ])
     }
     
-    private func addPokemonIdConstraints() {
+    private func addBerryIdConstraints() {
         NSLayoutConstraint.activate([
             berryId.centerYAnchor.constraint(equalTo: berryName.centerYAnchor),
             berryId.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -16),
-            berryId.leadingAnchor.constraint(equalTo: berryName.trailingAnchor, constant: -8),
             
         ])
     }
     
-    private func addPokemonImageConstraints() {
+    private func addBerryImageConstraints() {
         NSLayoutConstraint.activate([
-//            berryImage.topAnchor.constraint(equalTo: berryTypesStack.bottomAnchor),
-            berryImage.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
+            berryImage.topAnchor.constraint(equalTo: berryName.bottomAnchor),
+//            berryImage.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
             berryImage.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
+//            berryImage.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.centerYAnchor)
         ])
-        berryImage.setContentHuggingPriority(.notRequired, for: .vertical)
-        berryImage.setContentCompressionResistancePriority(.notRequired, for: .vertical)
-        berryImage.setContentCompressionResistancePriority(.almostRequired, for: .horizontal)
+//        berryImage.setContentHuggingPriority(.notRequired, for: .vertical)
+//        berryImage.setContentCompressionResistancePriority(.notRequired, for: .vertical)
+//        berryImage.setContentCompressionResistancePriority(.almostRequired, for: .horizontal)
     }
-
+    
+    private func addBerryStatsCardConstraints() {
+        NSLayoutConstraint.activate([
+            BerryStatsCard.topAnchor.constraint(equalTo: berryImage.bottomAnchor),
+            BerryStatsCard.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
+            BerryStatsCard.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
+            BerryStatsCard.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 16),
+        ])
+        BerryStatsCard.setContentHuggingPriority(.almostRequired, for: .vertical)
+        BerryStatsCard.setContentCompressionResistancePriority(.almostRequired, for: .vertical)
+    }
 }

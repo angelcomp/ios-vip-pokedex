@@ -8,6 +8,7 @@
 import UIKit
 
 typealias Berry = Berries.Model.Response
+typealias Flavor = Berries.Model.Flavor
 
 enum Berries {
     enum Model {
@@ -15,7 +16,7 @@ enum Berries {
         struct Response: Decodable {
             let id: Int
             let name: String
-            let firmness: Name
+            let firmness, giftType: Name
             let flavors: [Flavor]
             let size, smoothness, soilDryness: Int
 
@@ -25,11 +26,13 @@ enum Berries {
                 case name
                 case size, smoothness
                 case soilDryness = "soil_dryness"
+                case giftType = "natural_gift_type"
             }
         }
 
         struct Name: Decodable {
             var name: String
+            var url: String
         }
 
         struct Flavor: Decodable {

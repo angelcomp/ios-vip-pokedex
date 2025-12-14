@@ -40,6 +40,9 @@
 		8953F2742A8A958F00E5799F /* BerryDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8953F26E2A8A958F00E5799F /* BerryDetailsViewController.swift */; };
 		8953F2752A8A958F00E5799F /* BerryDetailsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8953F26F2A8A958F00E5799F /* BerryDetailsInteractor.swift */; };
 		8953F2772A8A95D600E5799F /* BerryDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8953F2762A8A95D600E5799F /* BerryDetailsView.swift */; };
+		89594A972E93031700B344D0 /* BerryStatsCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89594A952E93031700B344D0 /* BerryStatsCellView.swift */; };
+		89594A982E93031700B344D0 /* BerryStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89594A942E93031700B344D0 /* BerryStatsView.swift */; };
+		89594A992E93031700B344D0 /* BerryAboutCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89594A962E93031700B344D0 /* BerryAboutCellView.swift */; };
 		89CD4DC72A5C7488007EE5D5 /* UIColor+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89CD4DC62A5C7488007EE5D5 /* UIColor+extension.swift */; };
 		89CD4DCC2A5C8F43007EE5D5 /* FilterModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89CD4DCB2A5C8F43007EE5D5 /* FilterModalViewController.swift */; };
 		89CD4DCE2A5D94B7007EE5D5 /* PokedexPageButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89CD4DCD2A5D94B6007EE5D5 /* PokedexPageButtonsView.swift */; };
@@ -90,6 +93,9 @@
 		8953F26E2A8A958F00E5799F /* BerryDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BerryDetailsViewController.swift; sourceTree = "<group>"; };
 		8953F26F2A8A958F00E5799F /* BerryDetailsInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BerryDetailsInteractor.swift; sourceTree = "<group>"; };
 		8953F2762A8A95D600E5799F /* BerryDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BerryDetailsView.swift; sourceTree = "<group>"; };
+		89594A942E93031700B344D0 /* BerryStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BerryStatsView.swift; sourceTree = "<group>"; };
+		89594A952E93031700B344D0 /* BerryStatsCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BerryStatsCellView.swift; sourceTree = "<group>"; };
+		89594A962E93031700B344D0 /* BerryAboutCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BerryAboutCellView.swift; sourceTree = "<group>"; };
 		89CD4DC62A5C7488007EE5D5 /* UIColor+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+extension.swift"; sourceTree = "<group>"; };
 		89CD4DCB2A5C8F43007EE5D5 /* FilterModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterModalViewController.swift; sourceTree = "<group>"; };
 		89CD4DCD2A5D94B6007EE5D5 /* PokedexPageButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokedexPageButtonsView.swift; sourceTree = "<group>"; };
@@ -215,6 +221,7 @@
 		8953F2692A8A954A00E5799F /* BerryDetails */ = {
 			isa = PBXGroup;
 			children = (
+				89594A932E9302E100B344D0 /* components */,
 				8953F26A2A8A958F00E5799F /* BerryDetailsPresenter.swift */,
 				8953F26B2A8A958F00E5799F /* BerryDetailsWorker.swift */,
 				8953F26C2A8A958F00E5799F /* BerryDetailsRouter.swift */,
@@ -224,6 +231,16 @@
 				8953F2762A8A95D600E5799F /* BerryDetailsView.swift */,
 			);
 			path = BerryDetails;
+			sourceTree = "<group>";
+		};
+		89594A932E9302E100B344D0 /* components */ = {
+			isa = PBXGroup;
+			children = (
+				89594A942E93031700B344D0 /* BerryStatsView.swift */,
+				89594A952E93031700B344D0 /* BerryStatsCellView.swift */,
+				89594A962E93031700B344D0 /* BerryAboutCellView.swift */,
+			);
+			path = components;
 			sourceTree = "<group>";
 		};
 		89CD4DC52A5C746D007EE5D5 /* Extensions */ = {
@@ -263,10 +280,10 @@
 				890BA9ED2A4F202F007E77F1 /* Enum */,
 				890BA9EC2A4F1FDC007E77F1 /* Resources */,
 				89F9254A2A4C75CA00BA8D42 /* AppDelegate.swift */,
+				890BA9F32A4FBB76007E77F1 /* ApiManager.swift */,
 				89F925532A4C75CD00BA8D42 /* Assets.xcassets */,
 				89F925552A4C75CD00BA8D42 /* LaunchScreen.storyboard */,
 				89F925582A4C75CD00BA8D42 /* Info.plist */,
-				890BA9F32A4FBB76007E77F1 /* ApiManager.swift */,
 			);
 			path = "ios-vip-pokedex";
 			sourceTree = "<group>";
@@ -410,6 +427,9 @@
 				89F925762A4F176100BA8D42 /* PokemonCardViewCell.swift in Sources */,
 				8953F2712A8A958F00E5799F /* BerryDetailsWorker.swift in Sources */,
 				8905533B2A699F3B001D5405 /* PokemonDetailsRouter.swift in Sources */,
+				89594A972E93031700B344D0 /* BerryStatsCellView.swift in Sources */,
+				89594A982E93031700B344D0 /* BerryStatsView.swift in Sources */,
+				89594A992E93031700B344D0 /* BerryAboutCellView.swift in Sources */,
 				89F925742A4C8F5100BA8D42 /* PokedexInteractor.swift in Sources */,
 				8953F2742A8A958F00E5799F /* BerryDetailsViewController.swift in Sources */,
 				89F9256F2A4C8F5100BA8D42 /* PokedexPresenter.swift in Sources */,

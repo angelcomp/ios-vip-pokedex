@@ -24,7 +24,7 @@ final class BerriesInteractor: BerriesBusinessLogic, BerriesDataStore {
     
     // MARK: - DataStore Objects
     
-     var berry: Berry?
+    var berry: Berry?
     
     // MARK: - Interactor Lifecycle
     

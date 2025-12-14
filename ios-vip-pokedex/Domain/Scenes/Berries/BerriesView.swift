@@ -41,11 +41,6 @@ class BerriesView: UIView {
     }()
     
     internal lazy var berriesTable: UITableView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        layout.itemSize = .init(width: 180, height: 210)
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 0)
-        layout.minimumLineSpacing = 12
         let element = UITableView()
         element.showsVerticalScrollIndicator = false
         element.backgroundColor = .white

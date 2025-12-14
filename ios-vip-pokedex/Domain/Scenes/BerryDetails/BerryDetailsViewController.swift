@@ -68,6 +68,10 @@ final class BerryDetailsViewController: UIViewController, BerryDetailsDisplayLog
     // MARK: - Display Logic
     
     func displayScreenValues(viewModel: BerryDetails.Model.ViewModel) {
-        //nameTextField.text = viewModel.name
+        let detailsView = BerryDetailsView()
+        detailsView.setup(berry: viewModel)
+        
+        view = detailsView
+        view.backgroundColor = .lightGray
     }
 }

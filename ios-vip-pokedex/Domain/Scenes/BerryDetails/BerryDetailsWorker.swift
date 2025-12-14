@@ -8,9 +8,13 @@
 import UIKit
 
 protocol BerryDetailsWorkerLogic {
-    func fetchData()
+    func fetchData(_ itemUrl: String, completion: @escaping () -> Void)
 }
 
 final class BerryDetailsWorker: BerryDetailsWorkerLogic {
+    func fetchData(_ itemUrl: String, completion: @escaping () -> Void) {
+        
+    }
+    
     func fetchData() {}
 }
